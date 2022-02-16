@@ -1,10 +1,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Footer } from "../components/Footer";
-import { Header } from "../components/Header";
-import { QuestionTable } from "../components/QuestionTable";
+import { CenteredForm } from "../components/CenteredElement";
+import { RegisterForm } from "../components/CenteredElement/RegisterForm";
 
-const Home: NextPage = () => {
+const Register: NextPage = () => {
   return (
     <>
       <Head>
@@ -13,13 +12,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header />
-
-      <QuestionTable />
-
-      <Footer />
+      <CenteredForm form={<RegisterForm />} />
     </>
   );
 };
 
-export default Home;
+export default Register;
