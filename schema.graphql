@@ -1,0 +1,46 @@
+scalar Date
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  passwordHash: String!
+  createdAt: Date!
+  wallet: Wallet!
+  questions: [Question!]!
+  answers: [Answer!]!
+}
+
+type Question {
+  id: ID!
+  question: String!
+  options: [String!]!
+  createdAt: Date!
+  expiresAt: Date!
+  answers: [Answer!]!
+}
+
+type Answer {
+  id: ID!
+  user: User!
+  question: Question!
+  choosedOption: Int!
+}
+
+type ClaimReward {
+  id: ID!
+  user: User!
+  lastTimeRewarded: Date!
+}
+
+type Wallet {
+  id: ID!
+  balance: Int!
+  transactions: [Transaction!]!
+}
+
+type Transaction {
+  id: ID!
+  amount: Int!
+  timestamp: Date!
+}
