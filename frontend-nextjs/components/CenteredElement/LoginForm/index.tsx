@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export function LoginForm(): JSX.Element | null {
   return (
@@ -44,7 +45,9 @@ export function LoginForm(): JSX.Element | null {
             </div>
             <div className="mb-4 row">
               <div className="col">
-                <a className="btn text-white">Cadastrar</a>
+                <Link href="/register" passHref>
+                  <a className="btn text-white">Cadastrar</a>
+                </Link>
               </div>
               <div className="col d-flex justify-content-end">
                 <button type="submit" className="btn btn-light ">
