@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export function Header(): JSX.Element | null {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -18,10 +20,14 @@ export function Header(): JSX.Element | null {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0" />
-          <button className="btn btn-primary">
-            Perguntar
-          </button>
-          
+          <button className="btn btn-primary me-3">Perguntar</button>
+          <Image
+            src="/user-placeholder.png"
+            className="rounded-circle"
+            alt="..."
+            height={50}
+            width={50}
+          />
         </div>
       </div>
     </nav>

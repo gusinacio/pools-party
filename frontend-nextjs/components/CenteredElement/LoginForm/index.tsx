@@ -1,23 +1,32 @@
+import Image from "next/image";
+
 export function LoginForm(): JSX.Element | null {
   return (
     <div className="col">
+      <div className="row d-flex justify-content-center mb-5">
+        <Image
+          src="/user-placeholder.png"
+          className="rounded-circle"
+          alt="..."
+          height={100}
+          width={100}
+        />
+      </div>
+
       <div className="row">
         <div className="card text-white bg-secondary">
           <div className="container">
             <div className="mb-3 mt-5 row">
               <div className="col">
-                <label className="visually-hidden" htmlFor="username">
-                  nome do usuário
+                <label className="visually-hidden" htmlFor="email">
+                  email
                 </label>
-                <div className="input-group">
-                  <div className="input-group-text">@</div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="username"
-                    placeholder="nome do usuário"
-                  />
-                </div>
+                <input
+                  type="email"
+                  className="form-control rounded-pill"
+                  id="email"
+                  placeholder="email"
+                />
               </div>
             </div>
             <div className="mb-3 row">
@@ -27,7 +36,7 @@ export function LoginForm(): JSX.Element | null {
                 </label>
                 <input
                   type="password"
-                  className="form-control"
+                  className="form-control rounded-pill"
                   id="password"
                   placeholder="senha"
                 />
@@ -35,9 +44,7 @@ export function LoginForm(): JSX.Element | null {
             </div>
             <div className="mb-4 row">
               <div className="col">
-                <button type="submit" className="btn btn-outline-light">
-                  Cadastrar
-                </button>
+                <a className="btn text-white">Cadastrar</a>
               </div>
               <div className="col d-flex justify-content-end">
                 <button type="submit" className="btn btn-light ">
@@ -51,7 +58,7 @@ export function LoginForm(): JSX.Element | null {
       <div className="row">
         <div className="mt-2 row">
           <div className="col  d-flex justify-content-center">
-            <a type="button" className="btn btn-link">
+            <a type="button" className="btn text-primary">
               esqueceu a senha?
             </a>
           </div>
