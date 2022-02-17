@@ -133,8 +133,10 @@ export function NewQuestionForm(): JSX.Element | null {
             </label>
             <input
               type="datetime-local"
+              id="input-datetime"
               className="form-control text-muted"
               name="data"
+              min={new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate() + 2) + 'T' + new Date().getHours() + ':' + new Date().getMinutes() }
             />
           </div>
         </div>
