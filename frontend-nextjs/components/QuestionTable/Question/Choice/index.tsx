@@ -5,11 +5,11 @@ interface Props {
 export function Choice({ choice }: Props): JSX.Element | null {
 
   function mouseHover() {
-    console.log("hover", choice);
+    // console.log("hover", choice);
   }
 
   function mouseLeave() {
-    console.log("leave", choice);
+    // console.log("leave", choice);
   }
 
   return (
