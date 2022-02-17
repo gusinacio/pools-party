@@ -15,32 +15,32 @@ export function LoginForm(): JSX.Element | null {
       </div>
 
       <div className="row">
-        <div className="card text-white bg-secondary">
+        <div className="card bg-secondary">
           <div className="container">
             <div className="mb-3 mt-5 row">
               <div className="col">
-                <label className="visually-hidden" htmlFor="email">
-                  email
-                </label>
-                <input
-                  type="email"
-                  className="form-control rounded-pill"
-                  id="email"
-                  placeholder="email"
-                />
+                <div className="form-floating">
+                  <input
+                    type="email"
+                    className="form-control rounded-pill"
+                    id="email"
+                    placeholder="email"
+                  />
+                  <label htmlFor="email">email</label>
+                </div>
               </div>
             </div>
             <div className="mb-3 row">
               <div className="col">
-                <label className="visually-hidden" htmlFor="password">
-                  senha
-                </label>
-                <input
-                  type="password"
-                  className="form-control rounded-pill"
-                  id="password"
-                  placeholder="senha"
-                />
+                <div className="form-floating">
+                  <input
+                    type="password"
+                    className="form-control rounded-pill"
+                    id="password"
+                    placeholder="senha"
+                  />
+                  <label htmlFor="password">senha</label>
+                </div>
               </div>
             </div>
             <div className="mb-4 row">

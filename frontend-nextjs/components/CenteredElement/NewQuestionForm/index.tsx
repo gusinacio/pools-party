@@ -26,12 +26,12 @@ export function NewQuestionForm(): JSX.Element | null {
                                 type="text"
                                 name="alternativa"
                                 className="form-control mb-3"
-                                placeholder="Alternativa"/>
+                                placeholder="Alternativa #1"/>
                             <input
                                 type="text"
                                 name="alternativa"
                                 className="form-control mb-3"
-                                placeholder="Alternativa"
+                                placeholder="Alternativa #2"
                                 />
                         </div>
                     </div>
