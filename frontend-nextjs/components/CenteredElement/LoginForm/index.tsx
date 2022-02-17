@@ -37,7 +37,7 @@ export function LoginForm(): JSX.Element | null {
       </div>
 
       <div className="row">
-        <div className="card">
+        <div className="card bg-light">
           <div className="container">
             <div className="mb-3 mt-5 row">
               <div className="col">
@@ -57,7 +57,7 @@ export function LoginForm(): JSX.Element | null {
 
                   {invalidEmail && (
                     <div className="invalid-feedback">
-                      Digite um email válido.
+                      Email inválido. (exemplo@email.com)
                     </div>
                   )}
                 </div>
@@ -89,15 +89,14 @@ export function LoginForm(): JSX.Element | null {
             <div className="mb-4 row">
               <div className="col">
                 <Link href="/register" passHref>
-                  <a className="btn text-white">Cadastrar</a>
+                  <a className="btn text-secondary">Cadastrar</a>
                 </Link>
               </div>
               <div className="col d-flex justify-content-end">
                 <button
                   type="submit"
                   className="btn btn-secondary"
-                  onClick={handleLogin}
-                >
+                  onClick={handleLogin}>
                   Login
                 </button>
               </div>
