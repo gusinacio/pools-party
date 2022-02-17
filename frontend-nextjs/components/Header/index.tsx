@@ -23,7 +23,9 @@ export function Header(): JSX.Element | null {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0" />
           <ul className="navbar-nav align-items-center">
             <li className="nav-item mb-2 d-flex flex-column w-100">
-              <button className="btn btn-dark me-3">Perguntar</button>
+              <Link href="/new-question" passHref>
+                <button className="btn btn-dark me-3">Perguntar</button>
+              </Link>
             </li>
             <li className="nav-item mb-2 d-flex flex-column w-100  d-block d-lg-none">
               <Link href="/login" passHref>
