@@ -13,7 +13,7 @@ const questionList = [
     expiration: new Date(2022, 11, 30),
   },
   {
-    title: "O grupo #9 vai receber nota 10 no AS2?",
+    title: "O grupo #9 vai receber nota 10 no AG2?",
     choices: ["Sim", "Claro", "Com certeza", "Isso é uma pergunta?"],
     expiration: new Date(2022, 1, 18),
   },
