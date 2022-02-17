@@ -15,9 +15,7 @@ export function NewQuestionForm(): JSX.Element | null {
                                 type="text"
                                 name="pergunta"
                                 className="form-control mb-3"
-                                placeholder="Pergunta"
-                                aria-label="Pergunta"
-                                aria-describedby="addon-wrapping"/>
+                                placeholder="Pergunta"/>
                         </div>
                     </div>
             
@@ -28,16 +26,13 @@ export function NewQuestionForm(): JSX.Element | null {
                                 type="text"
                                 name="alternativa"
                                 className="form-control mb-3"
-                                placeholder="Alternativa"
-                                aria-label="Alternativa"
-                                aria-describedby="addon-wrapping"/>
+                                placeholder="Alternativa"/>
                             <input
                                 type="text"
                                 name="alternativa"
                                 className="form-control mb-3"
                                 placeholder="Alternativa"
-                                aria-label="Alternativa"
-                                aria-describedby="addon-wrapping"/>
+                                />
                         </div>
                     </div>
             
@@ -55,7 +50,12 @@ export function NewQuestionForm(): JSX.Element | null {
                         </div>
                     </div>
                 </div>
-                <div className="card-footer text-muted"></div>
+                <div className="card-footer">
+                    <div className="col">
+                        <label className="mb-1 mt-1" htmlFor="data">A enquete encerra em:</label>
+                        <input type="date" className="form-control" name="data"/>
+                    </div>
+                </div>
             </div>
 
             <div className="m-2 row">
