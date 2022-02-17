@@ -26,93 +26,95 @@ export function LoginForm(): JSX.Element | null {
 
   return (
     <div className="col">
-      <div className="row d-flex justify-content-center mb-5">
-        <Image
-          src="/user-placeholder.png"
-          className="rounded-circle"
-          alt="..."
-          height={100}
-          width={100}
-        />
-      </div>
+      <div className="container">
+        <div className="row d-flex justify-content-center mb-5">
+          <Image
+            src="/user-placeholder.png"
+            className="rounded-circle"
+            alt="..."
+            height={100}
+            width={100}
+          />
+        </div>
 
-      <div className="row">
-        <div className="card">
-          <div className="container">
-            <div className="mb-3 mt-5 row">
-              <div className="col">
-                <div className="form-floating">
-                  <input
-                    type="email"
-                    className={[
-                      "form-control rounded-pill",
-                      invalidEmail ? "is-invalid" : "",
-                    ].join(" ")}
-                    id="email"
-                    placeholder="email"
-                    onBlur={validateEmail}
-                    {...email}
-                  />
-                  <label htmlFor="email">email</label>
+        <div className="row">
+          <div className="card">
+            <div className="container">
+              <div className="mb-3 mt-5 row">
+                <div className="col">
+                  <div className="form-floating">
+                    <input
+                      type="email"
+                      className={[
+                        "form-control rounded-pill",
+                        invalidEmail ? "is-invalid" : "",
+                      ].join(" ")}
+                      id="email"
+                      placeholder="email"
+                      onBlur={validateEmail}
+                      {...email}
+                    />
+                    <label htmlFor="email">email</label>
 
-                  {invalidEmail && (
-                    <div className="invalid-feedback">
-                      Digite um email válido.
-                    </div>
-                  )}
+                    {invalidEmail && (
+                      <div className="invalid-feedback">
+                        Digite um email válido.
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="mb-3 row">
-              <div className="col">
-                <div className="form-floating">
-                  <input
-                    type="password"
-                    className={[
-                      "form-control rounded-pill",
-                      invalidPassword ? "is-invalid" : "",
-                    ].join(" ")}
-                    id="password"
-                    placeholder="senha"
-                    onBlur={validatePassword}
-                    {...password}
-                  />
-                  <label htmlFor="password">senha</label>
-                  {invalidPassword && (
-                    <div className="invalid-feedback">
-                      Senha precisa ter mais que 6 caracteres.
-                    </div>
-                  )}
+              <div className="mb-3 row">
+                <div className="col">
+                  <div className="form-floating">
+                    <input
+                      type="password"
+                      className={[
+                        "form-control rounded-pill",
+                        invalidPassword ? "is-invalid" : "",
+                      ].join(" ")}
+                      id="password"
+                      placeholder="senha"
+                      onBlur={validatePassword}
+                      {...password}
+                    />
+                    <label htmlFor="password">senha</label>
+                    {invalidPassword && (
+                      <div className="invalid-feedback">
+                        Senha precisa ter mais que 6 caracteres.
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="mb-4 row">
-              <div className="col">
-                <Link href="/register" passHref>
-                  <a className="btn text-white">Cadastrar</a>
-                </Link>
-              </div>
-              <div className="col d-flex justify-content-end">
-                <button
-                  type="submit"
-                  className="btn btn-secondary"
-                  onClick={handleLogin}
-                >
-                  Login
-                </button>
+              <div className="mb-4 row">
+                <div className="col">
+                  <Link href="/register" passHref>
+                    <a className="btn text-secondary">Cadastrar</a>
+                  </Link>
+                </div>
+                <div className="col d-flex justify-content-end">
+                  <button
+                    type="submit"
+                    className="btn btn-secondary"
+                    onClick={handleLogin}
+                  >
+                    Login
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="row">
-        <div className="mt-2 row">
-          <div className="col  d-flex justify-content-center">
-            <Link href="/forgot-password" passHref>
-              <a type="button" className="btn text-primary">
-                esqueceu a senha?
-              </a>
-            </Link>
+        <div className="row">
+          <div className="mt-2 row">
+            <div className="col  d-flex justify-content-center">
+              <Link href="/forgot-password" passHref>
+                <a type="button" className="btn text-primary">
+                  esqueceu a senha?
+                </a>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

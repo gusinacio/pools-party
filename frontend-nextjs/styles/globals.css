@@ -23,3 +23,7 @@ a {
   left: 0;
   right: 0;
 }
+
+.fixed-height {
+  height: 17rem;
+}

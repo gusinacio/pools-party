@@ -42,7 +42,7 @@ export function Question({
       <div className="card-header bg-secondary text-white">
         pergunta #{index}
       </div>
-      <div className="card-body">
+      <div className="card-body fixed-height">
         <h5 className="card-title text-center">{title}</h5>
         {description && <p className="card-text">{description}</p>}
         <div className="d-flex h-100">
