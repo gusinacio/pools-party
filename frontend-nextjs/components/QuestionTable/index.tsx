@@ -5,17 +5,17 @@ const questionList = [
   {
     title: "Quem irá vencer as eleições de 2022 no Brasil?",
     choices: ["Lula", "Bolsonaro", "Moro", "Nenhum deles"],
-    expiration: new Date(2020, 1, 1),
+    expiration: new Date(2022, 9, 30),
   },
   {
-    title: "Bitcoin chegará a US$100.000,00 até final de 2022?",
+    title: "Bitcoin chegará a US$100k até final de 2022?",
     choices: ["Sim", "Não"],
-    expiration: new Date(2020, 1, 1),
+    expiration: new Date(2022, 11, 30),
   },
   {
-    title: "Bitcoin chegará a US$100.000,00 até final de 2022?",
-    choices: ["Sim", "Não"],
-    expiration: new Date(2020, 1, 1),
+    title: "O grupo #9 vai receber nota 10 no AS2?",
+    choices: ["Sim", "Claro", "Com certeza", "Isso é uma pergunta?"],
+    expiration: new Date(2022, 1, 18),
   },
   {
     title: "Quem irá vencer as eleições de 2022 no Brasil?",
@@ -31,12 +31,13 @@ export function QuestionTable(): JSX.Element | null {
       return (
         <div
           key={index}
-          className={
-            index % 2 == 0 ? "col-12 col-lg-6 mb-3" : "col-12 col-lg-6"
-          }
+          className={[
+            "col-12 col-lg-6",
+            index % 2 == 0 ? "mb-3 mb-lg-0" : "",
+          ].join(" ")}
         >
           <Question key={index} index={index + 1} {...question} />
-         </div>
+        </div>
       );
     })
     .reduce<JSX.Element[][]>((r, element, index) => {
@@ -50,5 +51,10 @@ export function QuestionTable(): JSX.Element | null {
       </div>
     ));
 
-  return <div className="container">{questionsElement}</div>;
+  return (
+    <div className="container">
+      {questionsElement}
+      <Pagination currentPage={1} totalPages={10} />
+    </div>
+  );
 }

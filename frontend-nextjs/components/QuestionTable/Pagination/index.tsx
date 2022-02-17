@@ -28,7 +28,7 @@ export function Pagination({ currentPage, totalPages }: Props): JSX.Element | nu
 
   return (
     <nav aria-label="Page navigation example">
-      <ul className="pagination  justify-content-end">
+      <ul className="pagination  justify-content-end mt-2">
         <li className={prevEnabled ? "page-item" : "page-item disabled"}>
           <a
             className="page-link"
@@ -38,7 +38,7 @@ export function Pagination({ currentPage, totalPages }: Props): JSX.Element | nu
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-        <li className="page-item">
+        <li className="page-item active">
           <a className="page-link" href="#">
             {pages[0]}
           </a>

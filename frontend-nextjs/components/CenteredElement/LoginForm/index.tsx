@@ -61,9 +61,11 @@ export function LoginForm(): JSX.Element | null {
       <div className="row">
         <div className="mt-2 row">
           <div className="col  d-flex justify-content-center">
-            <a type="button" className="btn text-primary">
-              esqueceu a senha?
-            </a>
+            <Link href="/forgot-password" passHref>
+              <a type="button" className="btn text-primary">
+                esqueceu a senha?
+              </a>
+            </Link>
           </div>
         </div>
       </div>
