@@ -1,131 +1,166 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useInput } from "../../../lib/hooks/useInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function NewQuestionForm(): JSX.Element | null {
-    const question = useInput("");
-    const alternative = useInput("");
-    const alternative2 = useInput("");
+  const question = useInput("");
+  const alternatives = [useInput(""), useInput(""), useInput(""), useInput("")];
 
-    const [invalidQuestion, setInvalidQuestion] = useState(false);
-    const [invalidAlternative, setInvalidAlternative] = useState(false);
-    const [invalidAlternative2, setInvalidAlternative2] = useState(false);
+  const [invalidQuestion, setInvalidQuestion] = useState(false);
+  const alternativeValidation = [
+    useState(false),
+    useState(false),
+    useState(false),
+    useState(false),
+  ];
+  const [invalidAlternative2, setInvalidAlternative2] = useState(false);
 
-    function handleNewQuestion(): void {
-        console.log(invalidQuestion);
-        console.log(invalidAlternative)
-        console.log(invalidAlternative2)
-        console.log(`${question.value} ${alternative.value} ${alternative2.value}`);
-    }
-
-    function validateQuestion(): void {
-        setInvalidQuestion(question.value.length < 5);
-    }
-    function validateAlternative(): void {
-        setInvalidAlternative(alternative.value.length < 1);
-    }
-    function validateAlternative2(): void {
-        setInvalidAlternative2(alternative2.value.length < 1);
-    }
-
-    return (
-        <div>
-            <div className="card mb-3">
-                <div className="card-header bg-secondary text-light">Nova Enquete</div>
-            
-                <div className="card-body pt-0 pb-0">
-                    <div className="mb-2 mt-2 row">
-                        <div className="col">
-                            <label className="mb-1 mt-1" htmlFor="question">Digite sua pergunta:</label>
-                            <input
-                                type="text"
-                                name="question"
-                                id="question"
-                                className={["form-control mb-1",
-                                invalidQuestion ? "is-invalid" : "",
-                                ].join(" ")}
-                                placeholder="Pergunta"
-                                onBlur={validateQuestion}
-                                {...question}
-                                />
-                            {invalidQuestion && (
-                                <div className="invalid-feedback">
-                                    A pergunta de conter no mínimo 5 caracteres.
-                                </div>
-                            )}
-                        </div>
-                    </div>
-            
-                    <div className="mb-2 mt-2 row">
-                        <div className="col">
-                            <label className="mb-1 mt-1" htmlFor="alternative">Alternativas:</label>
-                            <input
-                                type="text"
-                                name="alternative"
-                                id="alternative"
-                                className={["form-control mb-1",
-                                invalidAlternative ? "is-invalid" : "",
-                                ].join(" ")}
-                                placeholder="Alternativa #1"
-                                onBlur={validateAlternative}
-                                {...alternative}
-                                />
-                            {invalidAlternative && (
-                                <div className="invalid-feedback">
-                                    O campo não pode ficar vazio.
-                                </div>
-                            )}
-
-                            <input
-                                type="text"
-                                name="alternativa"
-                                id="alternative2"
-                                className={["form-control mb-1",
-                                invalidAlternative2 ? "is-invalid" : "",
-                                ].join(" ")}
-                                placeholder="Alternativa #2"
-                                onBlur={validateAlternative2}
-                                {...alternative2}
-                                />
-                            {invalidAlternative2 && (
-                                <div className="invalid-feedback">
-                                    O campo não pode ficar vazio.
-                                </div>
-                            )}
-                        </div>
-                    </div>
-            
-                    <div className="mb-2 row">
-                        <div className="col d-flex justify-content-end">
-                            <button className="border-0 bg-transparent">
-                                <Image
-                                    src="/add-icon.png"
-                                    className="rounded-circle"
-                                    alt="+"
-                                    height={25}
-                                    width={25}
-                                />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div className="card-footer">
-                    <div className="col">
-                        <label className="mb-1 mt-1" htmlFor="data">A enquete encerra em:</label>
-                        <input type="datetime-local" className="form-control text-muted" name="data"/>
-                    </div>
-                </div>
-            </div>
-
-            <div className="m-2 row">
-                <div className="col d-flex justify-content-center">
-                    <Link href="/#" passHref>
-                        <button type="button" className="btn btn-secondary btn-sm w-25 mx-2">Cancelar</button>
-                    </Link>
-                    <button type="button" className="btn btn-secondary btn-sm w-25 mx-2" onClick={handleNewQuestion}>Enviar</button>
-                </div>
-            </div>
-        </div>
+  function handleNewQuestion(): void {
+    console.log(invalidQuestion);
+    console.log(
+      `${question.value} ${alternatives[0].value} ${alternatives[1].value}`
     );
+    validateAlternatives();
   }
+
+  function validateQuestion(): void {
+    setInvalidQuestion(question.value.length < 5);
+  }
+
+  function validateAlternatives(): void {
+    const filledList = alternatives.map(
+      (alternative) => alternative.value.length > 0
+    );
+
+    for (let i = 0; i < alternatives.length; i++) {
+      const [_, setInvalidAlternative] = alternativeValidation[i];
+      if (i >= 2 && !anyFilled(filledList.slice(i, filledList.length)))
+        continue;
+
+      setInvalidAlternative(alternatives[i].value.length == 0);
+    }
+  }
+
+  function anyFilled(array: boolean[]): boolean {
+    return array.reduce((a, b) => a || b);
+  }
+
+  function renderAlternatives(): JSX.Element[] {
+    const rendering: JSX.Element[] = [];
+
+    const filledList = alternatives.map(
+      (alternative) => alternative.value.length > 0
+    );
+    for (let i: number = 0; i < alternatives.length; i++) {
+      const alternative = alternatives[i];
+      const [invalidAlternative, _] = alternativeValidation[i];
+
+      if (
+        i >= 2 &&
+        !anyFilled(filledList.slice(i, filledList.length)) &&
+        (!(filledList[0] && filledList[1]) || !filledList[i - 1])
+      )
+        continue;
+
+      rendering.push(
+        <>
+          <input
+            key={`alt${i}`}
+            type="text"
+            name="alternative"
+            id="alternative"
+            className={`form-control mb-1 ${
+              invalidAlternative ? "is-invalid" : ""
+            }`}
+            placeholder={`Alternativa #${i + 1}`}
+            {...alternative}
+          />
+          {invalidAlternative && (
+            <div key={i} className="invalid-feedback">
+              O campo não pode ficar vazio.
+            </div>
+          )}
+        </>
+      );
+    }
+
+    return rendering;
+  }
+
+  return (
+    <div>
+      <div className="card mb-3">
+        <div className="card-header bg-secondary text-light">Nova Enquete</div>
+
+        <div className="card-body pt-0 pb-0">
+          <div className="mb-2 mt-2 row">
+            <div className="col">
+              <label className="mb-1 mt-1" htmlFor="question">
+                Digite sua pergunta:
+              </label>
+              <input
+                type="text"
+                name="question"
+                id="question"
+                className={[
+                  "form-control mb-1",
+                  invalidQuestion ? "is-invalid" : "",
+                ].join(" ")}
+                placeholder="Pergunta"
+                onBlur={validateQuestion}
+                {...question}
+              />
+              {invalidQuestion && (
+                <div className="invalid-feedback">
+                  A pergunta de conter no mínimo 5 caracteres.
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="mb-2 mt-2 row">
+            <div className="col">
+              <label className="mb-1 mt-1" htmlFor="alternative">
+                Alternativas:
+              </label>
+              {renderAlternatives()}
+            </div>
+          </div>
+        </div>
+        <div className="card-footer">
+          <div className="col">
+            <label className="mb-1 mt-1" htmlFor="data">
+              A enquete encerra em:
+            </label>
+            <input
+              type="datetime-local"
+              className="form-control text-muted"
+              name="data"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="m-2 row">
+        <div className="col d-flex justify-content-center">
+          <Link href="/#" passHref>
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm w-25 mx-2"
+            >
+              Cancelar
+            </button>
+          </Link>
+          <button
+            type="button"
+            className="btn btn-secondary btn-sm w-25 mx-2"
+            onClick={handleNewQuestion}
+          >
+            Enviar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
