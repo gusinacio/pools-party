@@ -5,7 +5,7 @@ export function NewQuestionForm(): JSX.Element | null {
     return (
         <div>
             <div className="card mb-3">
-                <div className="card-header">Nova Enquete</div>
+                <div className="card-header bg-secondary text-light">Nova Enquete</div>
             
                 <div className="card-body pt-0 pb-0">
                     <div className="mb-2 mt-2 row">
@@ -53,7 +53,7 @@ export function NewQuestionForm(): JSX.Element | null {
                 <div className="card-footer">
                     <div className="col">
                         <label className="mb-1 mt-1" htmlFor="data">A enquete encerra em:</label>
-                        <input type="date" className="form-control" name="data"/>
+                        <input type="datetime-local" className="form-control text-muted" name="data"/>
                     </div>
                 </div>
             </div>

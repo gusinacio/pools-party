@@ -5,7 +5,7 @@ export function Header(): JSX.Element | null {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-secondary">
       <div className="container">
-        <a className="navbar-brand" href="#">
+        <a className="navbar-brand text-light" href="#">
           GamePools
         </a>
         <button
