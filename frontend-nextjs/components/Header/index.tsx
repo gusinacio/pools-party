@@ -5,9 +5,11 @@ export function Header(): JSX.Element | null {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-secondary">
       <div className="container">
-        <a className="navbar-brand text-light" href="#">
-          GamePools
-        </a>
+        <Link href="/" passHref>
+          <a className="navbar-brand text-light" href="#">
+            GamePools
+          </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -29,9 +31,7 @@ export function Header(): JSX.Element | null {
             </li>
             <li className="nav-item mb-2 d-flex flex-column w-100  d-block d-lg-none">
               <Link href="/login" passHref>
-                <button className="btn btn-dark me-3">
-                  Login
-                </button>
+                <button className="btn btn-dark me-3">Login</button>
               </Link>
             </li>
             <li className="nav-item mb-2 d-flex flex-column d-none d-lg-block">
