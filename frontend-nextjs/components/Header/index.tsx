@@ -1,55 +1,49 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Container, Nav, Navbar } from "react-bootstrap";
 
 export function Header(): JSX.Element | null {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-secondary">
-      <div className="container">
+    <Navbar bg="secondary" expand="lg">
+      <Container>
         <Link href="/" passHref>
-          <a className="navbar-brand text-light" href="#">
+          <Navbar.Brand className="text-light" href="#">
             GamePools
-          </a>
+          </Navbar.Brand>
         </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0" />
-          <ul className="navbar-nav align-items-center">
-            <li className="nav-item mb-2 d-flex flex-column w-100">
-              <Link href="/new-question" passHref>
-                <button className="btn btn-dark me-3">Perguntar</button>
-              </Link>
-            </li>
-            <li className="nav-item mb-2 d-flex flex-column w-100  d-block d-lg-none">
-              <Link href="/login" passHref>
-                <button className="btn btn-dark me-3">Login</button>
-              </Link>
-            </li>
-            <li className="nav-item mb-2 d-flex flex-column d-none d-lg-block">
-              <Link href="/login" passHref>
-                <a>
-                  <Image
-                    src="/user-placeholder.png"
-                    className="rounded-circle "
-                    alt="..."
-                    height={50}
-                    width={50}
-                  />
-                </a>
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto mb-2 mb-lg-0" />
+          <Nav className="align-items-center">
+            <Nav.Link
+              href="/new-question"
+              className="mb-2 d-flex flex-column w-100"
+            >
+              <button className="btn btn-dark me-3">Perguntar</button>
+            </Nav.Link>
+            <Nav.Link
+              href="/login"
+              className="mb-2 d-flex flex-column w-100 d-block d-lg-none"
+            >
+              <button className="btn btn-dark me-3">Login</button>
+            </Nav.Link>
+            <Nav.Link
+              href="/login"
+              className="mb-2 d-flex flex-column d-none d-lg-block"
+            >
+              <a>
+                <Image
+                  src="/user-placeholder.png"
+                  className="rounded-circle"
+                  alt="..."
+                  height={50}
+                  width={50}
+                />
+              </a>
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }

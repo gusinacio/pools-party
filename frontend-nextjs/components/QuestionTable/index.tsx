@@ -1,4 +1,5 @@
-import { Pagination } from "./Pagination";
+import { Col, Container, Row } from "react-bootstrap";
+import { QuestionPage } from "./QuestionPage";
 import { Question } from "./Question";
 
 const questionList = [
@@ -21,10 +22,14 @@ const questionList = [
     votes: 2,
   },
   {
-    title: "Quem irá vencer as eleições de 2022 no Brasil?",
-    choices: ["Lula", "Bolsonaro", "Moro", "Nenhum deles"],
-    expiration: new Date(2020, 1, 1),
+    title: "Quem irá vencer as eleições de 2018 no Brasil?",
+    choices: ["Haddad", "Bolsonaro", "Alckmin", "Nenhum deles"],
+    expiration: new Date(2018, 11, 30),
     votes: 2432,
+    winner: {
+      name: "Bolsonaro",
+      votes: 923,
+    }
   },
 ];
 
@@ -33,15 +38,14 @@ export function QuestionTable(): JSX.Element | null {
   const questionsElement = questionList
     .map((question, index) => {
       return (
-        <div
+        <Col
           key={index}
-          className={[
-            "col-12 col-lg-6",
-            index % 2 == 0 ? "mb-3 mb-lg-0" : "",
-          ].join(" ")}
+          xs={12}
+          lg={6}
+          className={index % 2 == 0 ? "mb-3 mb-lg-0" : ""}
         >
           <Question key={index} index={index + 1} {...question} />
-        </div>
+        </Col>
       );
     })
     .reduce<JSX.Element[][]>((r, element, index) => {
@@ -50,15 +54,15 @@ export function QuestionTable(): JSX.Element | null {
       return r;
     }, [])
     .map((row, index) => (
-      <div className="row mt-3" key={index}>
+      <Row className="mt-3" key={index}>
         {row}
-      </div>
+      </Row>
     ));
 
   return (
-    <div className="container">
+    <Container>
       {questionsElement}
-      <Pagination currentPage={1} totalPages={10} />
-    </div>
+      <QuestionPage currentPage={1} totalPages={10} />
+    </Container>
   );
 }

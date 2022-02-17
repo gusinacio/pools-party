@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react";
+import { Card, Col, Row, Toast, ToastBody, ToastContainer } from "react-bootstrap";
 import { Choice } from "./Choice";
 
 interface Props {
@@ -8,6 +10,10 @@ interface Props {
   choices: string[];
   expiration: Date;
   votes: number;
+  winner?: {
+    name: string;
+    votes: number;
+  };
 }
 
 export function Question({
@@ -17,9 +23,9 @@ export function Question({
   description,
   expiration,
   votes,
+  winner
 }: Props): JSX.Element {
-  function onHover() {}
-  function onLeave() {}
+  var [toast, setToast] = useState(false);
 
   const choiceElement = choices.map((choice, index) => {
     return <Choice key={index} choice={choice} />;
@@ -44,53 +50,41 @@ export function Question({
   }
   return (
     <>
-      <div
-        className="card mb-3 h-100"
-        onMouseEnter={onHover}
-        onMouseLeave={onLeave}
+      <Card
+        className="mb-3 h-100"
+        onMouseEnter={() => setToast(true)}
+        onMouseLeave={() => setToast(false)}
       >
-        <div className="card-header bg-secondary text-white">
+        <Card.Header className="bg-secondary text-white">
           pergunta #{index}
-        </div>
-        <div className="card-body fixed-height">
-          <h5 className="card-title text-center">{title}</h5>
-          {description && <p className="card-text">{description}</p>}
+        </Card.Header>
+        <Card.Body className="fixed-height">
+          <Card.Title className="text-center">{title}</Card.Title>
+          {description && <Card.Text>{description}</Card.Text>}
           <div className="d-flex h-100">
-            <div className="row align-self-center w-100">
-              <div className="col d-flex flex-column align-items-center">
+            <Row className="align-self-center w-100">
+              <Col className="d-flex flex-column align-items-center">
                 {choiceElement}
-              </div>
-            </div>
+              </Col>
+            </Row>
           </div>
-        </div>
-        <div className="card-footer text-muted text-end">{timeLeftString}</div>
-      </div>
-      {/* <div className="position-fixed bottom-0 end-0 p-3" style={{ zIndex: 11 }}>
-        <div
-          id="liveToast"
-          className="toast"
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-          ref={toastRef}
-        >
-          <div className="toast-header">
+        </Card.Body>
+        <Card.Footer className="text-muted text-end">
+          {timeLeftString}
+        </Card.Footer>
+      </Card>
+      <ToastContainer position="bottom-end" className="position-fixed p-3" style={{ zIndex: 11 }}>
+        <Toast show={toast}>
+          <Toast.Header>
             <strong className="me-auto">pergunta #{index}</strong>
             <small>{timeLeftString}</small>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="toast"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="toast-body">
-            Total de votos: {votes}
-            <br />
-            {seconds < 0 ? "Resultado final: " : null}
-          </div>
-        </div>
-      </div> */}
+          </Toast.Header>
+          <ToastBody>
+            <p>Total de votos: {votes}</p>
+            {winner ? <p>Resultado final: {winner.name} com {winner.votes} </p> : null}
+          </ToastBody>
+        </Toast>
+      </ToastContainer>
     </>
   );
 }
