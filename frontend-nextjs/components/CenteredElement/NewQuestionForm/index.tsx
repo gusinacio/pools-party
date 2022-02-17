@@ -14,7 +14,6 @@ export function NewQuestionForm(): JSX.Element | null {
     useState(false),
     useState(false),
   ];
-  const [invalidAlternative2, setInvalidAlternative2] = useState(false);
 
   function handleNewQuestion(): void {
     console.log(invalidQuestion);
@@ -64,9 +63,8 @@ export function NewQuestionForm(): JSX.Element | null {
         continue;
 
       rendering.push(
-        <>
+        <div key={`alt${i}`}>
           <input
-            key={`alt${i}`}
             type="text"
             name="alternative"
             id="alternative"
@@ -77,11 +75,11 @@ export function NewQuestionForm(): JSX.Element | null {
             {...alternative}
           />
           {invalidAlternative && (
-            <div key={i} className="invalid-feedback">
+            <div className="invalid-feedback">
               O campo não pode ficar vazio.
             </div>
           )}
-        </>
+        </div>
       );
     }
 
