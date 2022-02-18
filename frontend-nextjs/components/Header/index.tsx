@@ -31,15 +31,13 @@ export function Header(): JSX.Element | null {
               href="/login"
               className="mb-2 d-flex flex-column d-none d-lg-block"
             >
-              <a>
-                <Image
-                  src="/user-placeholder.png"
-                  className="rounded-circle"
-                  alt="..."
-                  height={50}
-                  width={50}
-                />
-              </a>
+              <Image
+                src="/user-placeholder.png"
+                className="rounded-circle"
+                alt="..."
+                height={50}
+                width={50}
+              />
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

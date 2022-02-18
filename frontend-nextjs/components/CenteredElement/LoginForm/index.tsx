@@ -53,7 +53,7 @@ export function LoginForm(): JSX.Element | null {
                 <Row className="mb-3 mt-5">
                   <Col>
                     <Form.Group>
-                      <FloatingLabel controlId="email" label="email">
+                      <FloatingLabel id="email" label="email">
                         <Form.Control
                           type="email"
                           isInvalid={invalidEmail}
@@ -73,7 +73,7 @@ export function LoginForm(): JSX.Element | null {
                 </Row>
                 <Row className="mb-3">
                   <Col>
-                    <FloatingLabel controlId="password" label="senha">
+                    <FloatingLabel id="password" label="senha">
                       <Form.Control
                         type="password"
                         isInvalid={invalidPassword}

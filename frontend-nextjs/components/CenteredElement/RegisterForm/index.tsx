@@ -12,10 +12,10 @@ import {
 } from "react-bootstrap";
 
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-const userNameRegex = /^[a-zA-Z0-9]+$/
+const userNameRegex = /^[a-zA-Z0-9]+$/;
 
 export function RegisterForm(): JSX.Element | null {
-  const userName = useInput("")
+  const userName = useInput("");
   const email = useInput("");
   const password = useInput("");
   const password2 = useInput("");
@@ -27,20 +27,25 @@ export function RegisterForm(): JSX.Element | null {
 
   function handleRegister(): void {
     console.log(invalidEmail);
-    console.log(`${userName.value} ${email.value} ${password.value} ${password2.value}`);
+    console.log(
+      `${userName.value} ${email.value} ${password.value} ${password2.value}`
+    );
   }
 
   function validateUserName(): void {
-    setInvalidUserName(userName.value.length < 3 || !userNameRegex.test(userName.value));
+    setInvalidUserName(
+      userName.value.length < 3 || !userNameRegex.test(userName.value)
+    );
   }
   function validateEmail(): void {
     setInvalidEmail(email.value.length > 0 && !emailRegex.test(email.value));
   }
   function validatePassword(): void {
     setInvalidPassword(password.value.length > 0 && password.value.length < 6);
+    if (password2.value.length > 0) validatePassword2();
   }
   function validatePassword2(): void {
-    setInvalidPassword2(password2.value.length > 0 && password2.value.length < 6);
+    setInvalidPassword2(password2.value !== password.value);
   }
 
   return (
@@ -49,7 +54,7 @@ export function RegisterForm(): JSX.Element | null {
         <Row className="mb-3 mt-5">
           <Col>
             <Form.Group>
-              <FloatingLabel controlId="username" label="nome de usuário">
+              <FloatingLabel id="username" label="nome de usuário">
                 <Form.Control
                   type="text"
                   className="rounded-pill"
@@ -57,12 +62,13 @@ export function RegisterForm(): JSX.Element | null {
                   id="username"
                   placeholder="nome do usuário"
                   onBlur={validateUserName}
-                  {...userName}/>
-                  {invalidUserName && (
-                    <Form.Control.Feedback type="invalid">
-                      O nome deve conter 3 caracteres, somente alfanuméricos.
-                    </Form.Control.Feedback>
-                  )}
+                  {...userName}
+                />
+                {invalidUserName && (
+                  <Form.Control.Feedback type="invalid">
+                    O nome deve conter 3 caracteres, somente alfanuméricos.
+                  </Form.Control.Feedback>
+                )}
               </FloatingLabel>
             </Form.Group>
           </Col>
@@ -70,7 +76,7 @@ export function RegisterForm(): JSX.Element | null {
         <Row className="mb-3">
           <Col>
             <Form.Group>
-              <FloatingLabel controlId="email" label="email">
+              <FloatingLabel id="email" label="email">
                 <Form.Control
                   type="email"
                   className="rounded-pill"
@@ -92,7 +98,7 @@ export function RegisterForm(): JSX.Element | null {
         <Row className="mb-3">
           <Col>
             <Form.Group>
-              <FloatingLabel controlId="password" label="senha">
+              <FloatingLabel id="password" label="senha">
                 <Form.Control
                   type="password"
                   className="rounded-pill"
@@ -114,7 +120,7 @@ export function RegisterForm(): JSX.Element | null {
         <Row className="mb-3">
           <Col>
             <Form.Group>
-              <FloatingLabel controlId="confirmPassword" label="confirme sua senha">
+              <FloatingLabel id="confirmPassword" label="confirme sua senha">
                 <Form.Control
                   type="password"
                   className="rounded-pill"
@@ -126,7 +132,7 @@ export function RegisterForm(): JSX.Element | null {
                 />
                 {invalidPassword2 && (
                   <Form.Control.Feedback type="invalid">
-                    A senha precisa ter mais que 6 caracteres.
+                    As senhas precisam ser iguais.
                   </Form.Control.Feedback>
                 )}
               </FloatingLabel>
@@ -140,7 +146,11 @@ export function RegisterForm(): JSX.Element | null {
             </Button>
           </Col>
           <Col className="d-flex justify-content-end">
-            <Button type="submit" className="btn-secondary " onClick={handleRegister}>
+            <Button
+              type="submit"
+              className="btn-secondary "
+              onClick={handleRegister}
+            >
               Cadastrar
             </Button>
           </Col>

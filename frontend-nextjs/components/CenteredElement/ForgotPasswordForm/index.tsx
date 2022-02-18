@@ -31,7 +31,7 @@ export function ForgotPasswordForm(): JSX.Element | null {
       <Container>
         <Row className="mb-3 mt-5">
           <Col>
-            <FloatingLabel className="visually-hidden" label="email" controlId="email">
+            <FloatingLabel className="visually-hidden" label="email" id="email">
               email
             </FloatingLabel>
             <Form.Control
