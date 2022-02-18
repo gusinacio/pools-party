@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Card, Col, Row, Toast, ToastBody, ToastContainer } from "react-bootstrap";
+import {
+  Card,
+  Col,
+  Row,
+  Toast,
+  ToastBody,
+  ToastContainer,
+} from "react-bootstrap";
 import { Choice } from "./Choice";
 
 interface Props {
@@ -10,10 +17,8 @@ interface Props {
   choices: string[];
   expiration: Date;
   votes: number;
-  winner?: {
-    name: string;
-    votes: number;
-  };
+  winner?: number;
+  results?: number[];
 }
 
 export function Question({
@@ -23,12 +28,30 @@ export function Question({
   description,
   expiration,
   votes,
-  winner
+  winner,
+  results,
 }: Props): JSX.Element {
   var [toast, setToast] = useState(false);
+  const [voted, setVoted] = useState<number>(-1);
+
+  function onVote(index: number) {
+    console.log(index)
+    if (voted != -1) return
+    setVoted(index);
+  }
 
   const choiceElement = choices.map((choice, index) => {
-    return <Choice key={index} choice={choice} />;
+    return (
+      <Choice
+        key={index}
+        index={index}
+        choice={choice}
+        finalized={winner ? true : voted != -1 && voted != index}
+        winner={winner ? winner == index : false}
+        voted={voted == index}
+        onVote={onVote}
+      />
+    );
   });
 
   const timeLeft = expiration.getTime() - new Date().getTime();
@@ -73,7 +96,11 @@ export function Question({
           {timeLeftString}
         </Card.Footer>
       </Card>
-      <ToastContainer position="bottom-end" className="position-fixed p-3" style={{ zIndex: 11 }}>
+      <ToastContainer
+        position="bottom-end"
+        className="position-fixed p-3"
+        style={{ zIndex: 11 }}
+      >
         <Toast show={toast}>
           <Toast.Header>
             <strong className="me-auto">pergunta #{index}</strong>
@@ -81,7 +108,11 @@ export function Question({
           </Toast.Header>
           <ToastBody>
             <p>Total de votos: {votes}</p>
-            {winner ? <p>Resultado final: {winner.name} com {winner.votes} </p> : null}
+            {winner && results ? (
+              <p>
+                Resultado final: {choices[winner]} com {results[winner]} votos
+              </p>
+            ) : null}
           </ToastBody>
         </Toast>
       </ToastContainer>

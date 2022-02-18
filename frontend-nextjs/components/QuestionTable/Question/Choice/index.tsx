@@ -1,10 +1,24 @@
+import { useState } from "react";
 import { Button, Row } from "react-bootstrap";
 
 interface Props {
+  index: number;
   choice: string;
+  finalized: boolean;
+  winner: boolean;
+  voted: boolean;
+  onVote: (index: number) => void;
 }
 
-export function Choice({ choice }: Props): JSX.Element | null {
+export function Choice({
+  index,
+  choice,
+  finalized,
+  winner,
+  voted,
+  onVote
+}: Props): JSX.Element | null {
+
   function mouseHover() {
     // console.log("hover", choice);
   }
@@ -16,11 +30,13 @@ export function Choice({ choice }: Props): JSX.Element | null {
   return (
     <Row className="align-self-center w-100">
       <Button
-        variant="outline-secondary"
+        variant={winner ? "secondary" : (voted ? "primary" :  "outline-secondary")}
         type="button"
         onMouseEnter={mouseHover}
         onMouseLeave={mouseLeave}
         className="mb-1"
+        disabled={finalized}
+        onClick={() => onVote(index)}
       >
         {choice}
       </Button>

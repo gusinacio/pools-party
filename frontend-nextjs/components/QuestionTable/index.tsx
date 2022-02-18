@@ -26,10 +26,8 @@ const questionList = [
     choices: ["Haddad", "Bolsonaro", "Alckmin", "Nenhum deles"],
     expiration: new Date(2018, 11, 30),
     votes: 2432,
-    winner: {
-      name: "Bolsonaro",
-      votes: 923,
-    }
+    winner: 1,
+    results: [321, 1120, 435, 556],
   },
 ];
 
