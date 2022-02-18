@@ -22,15 +22,16 @@ export function LoginForm(): JSX.Element | null {
   const [invalidPassword, setInvalidPassword] = useState(false);
 
   function handleLogin(): void {
-    console.log(invalidEmail);
+    validateEmail();
+    validatePassword();
     console.log(`${email.value} ${password.value}`);
   }
 
   function validateEmail(): void {
-    setInvalidEmail(email.value.length > 0 && !emailRegex.test(email.value));
+    setInvalidEmail(!emailRegex.test(email.value));
   }
   function validatePassword(): void {
-    setInvalidPassword(password.value.length > 0 && password.value.length < 6);
+    setInvalidPassword(password.value.length < 6);
   }
 
   return (
@@ -101,7 +102,7 @@ export function LoginForm(): JSX.Element | null {
                     </Button>
                   </Col>
                   <Col className="d-flex justify-content-end">
-                    <Button type="submit" variant="secondary">
+                    <Button variant="secondary" onClick={handleLogin}>
                       Login
                     </Button>
                   </Col>

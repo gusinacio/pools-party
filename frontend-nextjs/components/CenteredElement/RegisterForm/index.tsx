@@ -26,6 +26,10 @@ export function RegisterForm(): JSX.Element | null {
   const [invalidPassword2, setInvalidPassword2] = useState(false);
 
   function handleRegister(): void {
+    validateEmail();
+    validatePassword();
+    validatePassword2();
+    validateUserName();
     console.log(invalidEmail);
     console.log(
       `${userName.value} ${email.value} ${password.value} ${password2.value}`
@@ -38,10 +42,10 @@ export function RegisterForm(): JSX.Element | null {
     );
   }
   function validateEmail(): void {
-    setInvalidEmail(email.value.length > 0 && !emailRegex.test(email.value));
+    setInvalidEmail(!emailRegex.test(email.value));
   }
   function validatePassword(): void {
-    setInvalidPassword(password.value.length > 0 && password.value.length < 6);
+    setInvalidPassword(password.value.length < 6);
     if (password2.value.length > 0) validatePassword2();
   }
   function validatePassword2(): void {
