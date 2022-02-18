@@ -13,9 +13,11 @@ import {
 import { useEffect, useState } from "react";
 
 export function NewQuestionForm(): JSX.Element | null {
+  const date = useInput("");
   const question = useInput("");
   const alternatives = [useInput(""), useInput(""), useInput(""), useInput("")];
 
+  const [invalidDate, setInvalidDate] = useState(false)
   const [invalidQuestion, setInvalidQuestion] = useState(false);
   const alternativeValidation = [
     useState(false),
@@ -27,9 +29,13 @@ export function NewQuestionForm(): JSX.Element | null {
   function handleNewQuestion(): void {
     console.log(invalidQuestion);
     console.log(
-      `${question.value} ${alternatives[0].value} ${alternatives[1].value}`
+      `${question.value} ${date.value} ${alternatives[0].value} ${alternatives[1].value}`
     );
     validateAlternatives();
+  }
+
+  function validateDate(): void {
+    setInvalidDate(date.value == "")
   }
 
   function validateQuestion(): void {
@@ -140,10 +146,18 @@ export function NewQuestionForm(): JSX.Element | null {
             </FormLabel>
             <Form.Control
               type="datetime-local"
-              className="text-muted"
               name="data"
+              isInvalid={invalidDate}
+              className="text-muted"
               min={new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate() + 2) + 'T' + new Date().getHours() + ':' + new Date().getMinutes() }
+              onBlur={validateDate}
+              {...date}
             />
+            {invalidDate && (
+              <Form.Control.Feedback type="invalid">
+                A data deve ser preenchida.
+              </Form.Control.Feedback>
+            )}
           </Col>
         </Card.Footer>
       </Card>
