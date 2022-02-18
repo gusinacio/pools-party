@@ -113,7 +113,7 @@ export function LoginForm(): JSX.Element | null {
         <Row>
           <Row className="mt-2">
             <Col className="d-flex justify-content-center">
-              <Button href="/forgot-password"  variant="link">
+              <Button href="/forgot-password" variant="link">
                 esqueceu a senha?
               </Button>
             </Col>

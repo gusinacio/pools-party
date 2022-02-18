@@ -1,4 +1,13 @@
 import { MouseEventHandler, useState } from "react";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  FloatingLabel,
+  Form,
+  Row,
+} from "react-bootstrap";
 import { useInput } from "../../../lib/hooks/useInput";
 
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -18,36 +27,36 @@ export function ForgotPasswordForm(): JSX.Element | null {
   }
 
   return (
-    <div className="card text-white bg-light">
-      <div className="container">
-        <div className="mb-3 mt-5 row">
-          <div className="col">
-            <label className="visually-hidden" htmlFor="email">
+    <Card bg="light">
+      <Container>
+        <Row className="mb-3 mt-5">
+          <Col>
+            <FloatingLabel className="visually-hidden" label="email" controlId="email">
               email
-            </label>
-            <input
+            </FloatingLabel>
+            <Form.Control
               type="email"
-              className={["form-control", invalidEmail ? "is-invalid" : "",].join(" ")}
-              id="email"
+              isInvalid={invalidEmail}
+              className="rounded-pill"
               placeholder="email"
               onBlur={validateEmail}
               {...email}
             />
             {invalidEmail && (
-                    <div className="invalid-feedback">
+                    <Form.Control.Feedback type="invalid">
                       Email inválido. (exemplo@email.com)
-                    </div>
+                    </Form.Control.Feedback>
                   )}
-          </div>
-        </div>
-        <div className="mb-3 row">
-          <div className="col d-flex justify-content-end">
-            <button type="submit" className="btn btn-secondary " onClick={handleForgotPassword}>
+          </Col>
+        </Row>
+        <Row className="mb-3">
+          <Col className="d-flex justify-content-end">
+            <Button type="submit" className="btn btn-secondary " onClick={handleForgotPassword}>
               Recuperar senha
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Button>
+          </Col>
+        </Row>
+      </Container>
+    </Card>
   );
 }

@@ -1,5 +1,15 @@
 import { MouseEventHandler, useState } from "react";
 import { useInput } from "../../../lib/hooks/useInput";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  FloatingLabel,
+  Form,
+  FormFloating,
+  Row,
+} from "react-bootstrap";
 
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const userNameRegex = /^[a-zA-Z0-9]+$/
@@ -34,108 +44,103 @@ export function RegisterForm(): JSX.Element | null {
   }
 
   return (
-    <div className="card bg-light">
-      <div className="container">
-        <div className="mb-3 mt-5 row">
-          <div className="col">
-            <div className="form-floating">
-              <input
-                type="text"
-                className={[
-                  "form-control rounded-pill",
-                  invalidUserName ? "is-invalid" : "",
-                ].join(" ")}
-                id="username"
-                placeholder="nome do usuário"
-                onBlur={validateUserName}
-                {...userName}
-              />
-              <label htmlFor="username">nome do usuário</label>
-              {invalidUserName && (
-                <div className="invalid-feedback">
-                  O nome deve conter 3 caracteres, somente alfanuméricos.
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="mb-3 row">
-          <div className="col">
-            <div className="form-floating">
-              <input
-                type="email"
-                className={[
-                  "form-control rounded-pill",
-                  invalidEmail ? "is-invalid" : "",
-                ].join(" ")}
-                id="email"
-                placeholder="email"
-                onBlur={validateEmail}
-                {...email}
-              />
-              <label htmlFor="email">email</label>
-              {invalidEmail && (
-                <div className="invalid-feedback">
-                  Email inválido. (exemplo@email.com)
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="mb-3 row">
-          <div className="col">
-            <div className="form-floating">
-              <input
-                type="password"
-                className={[
-                  "form-control rounded-pill",
-                  invalidPassword ? "is-invalid" : "",
-                ].join(" ")}
-                id="password"
-                placeholder="senha"
-                onBlur={validatePassword}
-                {...password}
-              />
-              <label htmlFor="password">senha</label>
-              {invalidPassword && (
-                <div className="invalid-feedback">
-                  A senha precisa ter mais que 6 caracteres.
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="mb-3 row">
-          <div className="col">
-            <div className="form-floating">
-              <input
-                type="password"
-                className={[
-                  "form-control rounded-pill",
-                  invalidPassword2 ? "is-invalid" : "",
-                ].join(" ")}
-                id="password2"
-                placeholder="senha"
-                onBlur={validatePassword2}
-                {...password2}
-              />
-              <label htmlFor="confirmPassword">confirme sua senha</label>
-              {invalidPassword2 && (
-                <div className="invalid-feedback">
-                  A senha precisa ter mais que 6 caracteres.
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="mb-3 row">
-          <div className="col d-flex justify-content-end">
-            <button type="submit" className="btn btn-secondary " onClick={handleRegister}>
+    <Card bg="light">
+      <Container>
+        <Row className="mb-3 mt-5">
+          <Col>
+            <Form.Group>
+              <FloatingLabel controlId="username" label="nome de usuário">
+                <Form.Control
+                  type="text"
+                  className="rounded-pill"
+                  isInvalid={invalidUserName}
+                  id="username"
+                  placeholder="nome do usuário"
+                  onBlur={validateUserName}
+                  {...userName}/>
+                  {invalidUserName && (
+                    <Form.Control.Feedback type="invalid">
+                      O nome deve conter 3 caracteres, somente alfanuméricos.
+                    </Form.Control.Feedback>
+                  )}
+              </FloatingLabel>
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row className="mb-3">
+          <Col>
+            <Form.Group>
+              <FloatingLabel controlId="email" label="email">
+                <Form.Control
+                  type="email"
+                  className="rounded-pill"
+                  isInvalid={invalidEmail}
+                  id="email"
+                  placeholder="email"
+                  onBlur={validateEmail}
+                  {...email}
+                />
+                {invalidEmail && (
+                  <Form.Control.Feedback type="invalid">
+                    Email inválido. (exemplo@email.com)
+                  </Form.Control.Feedback>
+                )}
+              </FloatingLabel>
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row className="mb-3">
+          <Col>
+            <Form.Group>
+              <FloatingLabel controlId="password" label="senha">
+                <Form.Control
+                  type="password"
+                  className="rounded-pill"
+                  isInvalid={invalidPassword}
+                  id="password"
+                  placeholder="senha"
+                  onBlur={validatePassword}
+                  {...password}
+                />
+                {invalidPassword && (
+                  <Form.Control.Feedback type="invalid">
+                    A senha precisa ter mais que 6 caracteres.
+                  </Form.Control.Feedback>
+                )}
+              </FloatingLabel>
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row className="mb-3">
+          <Col>
+            <Form.Group>
+              <FloatingLabel controlId="confirmPassword" label="confirme sua senha">
+                <Form.Control
+                  type="password"
+                  className="rounded-pill"
+                  isInvalid={invalidPassword2}
+                  id="password2"
+                  placeholder="senha"
+                  onBlur={validatePassword2}
+                  {...password2}
+                />
+                {invalidPassword2 && (
+                  <Form.Control.Feedback type="invalid">
+                    A senha precisa ter mais que 6 caracteres.
+                  </Form.Control.Feedback>
+                )}
+              </FloatingLabel>
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row className="mb-3">
+          <Col className="d-flex justify-content-end">
+            <Button type="submit" className="btn-secondary " onClick={handleRegister}>
               Cadastrar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Button>
+          </Col>
+        </Row>
+      </Container>
+    </Card>
   );
 }

@@ -1,6 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useInput } from "../../../lib/hooks/useInput";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  FormLabel,
+  Form,
+  Row,
+} from "react-bootstrap";
 import { useEffect, useState } from "react";
 
 export function NewQuestionForm(): JSX.Element | null {
@@ -87,80 +96,74 @@ export function NewQuestionForm(): JSX.Element | null {
   }
 
   return (
-    <div>
-      <div className="card mb-3">
-        <div className="card-header bg-secondary text-light">Nova Enquete</div>
+    <Container>
+      <Card className="card mb-3">
+        <Card.Header className="bg-secondary text-light">Nova Enquete</Card.Header>
 
-        <div className="card-body pt-0 pb-0">
-          <div className="mb-2 mt-2 row">
-            <div className="col">
-              <label className="mb-1 mt-1" htmlFor="question">
+        <Card.Body className="pt-0 pb-0">
+          <Row className="mb-2 mt-2">
+            <Col>
+              <FormLabel className="mb-1 mt-1" htmlFor="question">
                 Digite sua pergunta:
-              </label>
-              <input
+              </FormLabel>
+              <Form.Control
                 type="text"
                 name="question"
                 id="question"
-                className={[
-                  "form-control mb-1",
-                  invalidQuestion ? "is-invalid" : "",
-                ].join(" ")}
+                className="mb-1"
+                isInvalid={invalidQuestion}
                 placeholder="Pergunta"
                 onBlur={validateQuestion}
                 {...question}
               />
               {invalidQuestion && (
-                <div className="invalid-feedback">
+                <Form.Control.Feedback type="invalid">
                   A pergunta de conter no mínimo 5 caracteres.
-                </div>
+                </Form.Control.Feedback>
               )}
-            </div>
-          </div>
+            </Col>
+          </Row>
 
-          <div className="mb-2 mt-2 row">
-            <div className="col">
-              <label className="mb-1 mt-1" htmlFor="alternative">
+          <Row className="mb-2 mt-2">
+            <Col>
+              <FormLabel className="mb-1 mt-1">
                 Alternativas:
-              </label>
+              </FormLabel>
               {renderAlternatives()}
-            </div>
-          </div>
-        </div>
-        <div className="card-footer">
-          <div className="col">
-            <label className="mb-1 mt-1" htmlFor="data">
+            </Col>
+          </Row>
+        </Card.Body>
+        <Card.Footer>
+          <Col>
+            <FormLabel className="mb-1 mt-1" htmlFor="data">
               A enquete encerra em:
-            </label>
-            <input
+            </FormLabel>
+            <Form.Control
               type="datetime-local"
-              id="input-datetime"
-              className="form-control text-muted"
+              className="text-muted"
               name="data"
               min={new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate() + 2) + 'T' + new Date().getHours() + ':' + new Date().getMinutes() }
             />
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Card.Footer>
+      </Card>
 
-      <div className="m-2 row">
-        <div className="col d-flex justify-content-center">
+      <Row className="m-2">
+        <Col className="col d-flex justify-content-center">
           <Link href="/#" passHref>
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm w-25 mx-2"
-            >
+            <Button
+              className=" btn-secondary btn-sm w-25 mx-2">
               Cancelar
-            </button>
+            </Button>
           </Link>
-          <button
+          <Button
             type="button"
             className="btn btn-secondary btn-sm w-25 mx-2"
-            onClick={handleNewQuestion}
-          >
+            onClick={handleNewQuestion}>
             Enviar
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </Col>
+      </Row>
+    </Container>
   );
 }
