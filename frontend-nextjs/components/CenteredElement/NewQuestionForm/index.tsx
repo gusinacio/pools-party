@@ -31,7 +31,9 @@ export function NewQuestionForm(): JSX.Element | null {
     console.log(
       `${question.value} ${date.value} ${alternatives[0].value} ${alternatives[1].value}`
     );
+    validateQuestion();
     validateAlternatives();
+    validateDate();
   }
 
   function validateDate(): void {
@@ -54,6 +56,16 @@ export function NewQuestionForm(): JSX.Element | null {
 
       setInvalidAlternative(alternatives[i].value.length == 0);
     }
+  }
+
+  function validateAlternative(index: number): void {
+    const filledList = alternatives.map(
+      (alternative) => alternative.value.length > 0
+    );
+    const [_, setInvalidAlternative] = alternativeValidation[index];
+    if (index >= 2 && !anyFilled(filledList.slice(index, filledList.length)))
+        return;
+    setInvalidAlternative(alternatives[index].value.length == 0);
   }
 
   function anyFilled(array: boolean[]): boolean {
@@ -88,6 +100,7 @@ export function NewQuestionForm(): JSX.Element | null {
             }`}
             placeholder={`Alternativa #${i + 1}`}
             {...alternative}
+            onBlur={() => validateAlternative(i)}
           />
           {invalidAlternative && (
             <div className="invalid-feedback">
