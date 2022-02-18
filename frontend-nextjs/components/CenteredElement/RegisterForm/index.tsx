@@ -134,6 +134,11 @@ export function RegisterForm(): JSX.Element | null {
           </Col>
         </Row>
         <Row className="mb-3">
+          <Col className="d-flex justify-content-start">
+            <Button href="/login" variant="link" className="text-secondary">
+              Cancelar
+            </Button>
+          </Col>
           <Col className="d-flex justify-content-end">
             <Button type="submit" className="btn-secondary " onClick={handleRegister}>
               Cadastrar
