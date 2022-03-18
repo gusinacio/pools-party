@@ -1,23 +1,27 @@
 scalar Date
 
+directive @isLoggedin on FIELD_DEFINITION
+directive @isAdmin on FIELD_DEFINITION
+directive @isFinished on FIELD_DEFINITION
+
 type User {
   id: ID!
   username: String!
-  email: String!
-  passwordHash: String!
-  createdAt: Date!
-  wallet: Wallet!
-  questions: [Question!]!
-  answers: [Answer!]!
+  email: String! @isLoggedin
+  createdAt: Date! @isLoggedin
+  # wallet: Wallet! @isLoggedin
+  questions: [Question!]! @isLoggedin
+  answers: [Answer!]! @isLoggedin 
 }
 
 type Question {
   id: ID!
-  question: String!
+  title: String!
   options: [String!]!
+  creator: User!
   createdAt: Date!
   expiresAt: Date!
-  answers: [Answer!]!
+  answers: [Answer!]! @isFinished
 }
 
 type Answer {
@@ -43,4 +47,24 @@ type Transaction {
   id: ID!
   amount: Int!
   timestamp: Date!
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type Query {
+  allQuestions: [Question!]!
+  allUsers: [User!]!
+}
+
+type Mutation {
+  signup(email: String!, password: String!, username: String!): AuthPayload
+  login(email: String!, password: String!): AuthPayload
+  createQuestion(
+    title: String!
+    options: [String!]!
+    expiresAt: Date!
+  ): Question
 }
