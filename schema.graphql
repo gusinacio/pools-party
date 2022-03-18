@@ -11,7 +11,7 @@ type User {
   createdAt: Date! @isLoggedin
   # wallet: Wallet! @isLoggedin
   questions: [Question!]! @isLoggedin
-  answers: [Answer!]! @isLoggedin 
+  answers: [Answer!]! @isLoggedin
 }
 
 type Question {
@@ -56,7 +56,7 @@ type AuthPayload {
 
 type Query {
   allQuestions: [Question!]!
-  allUsers: [User!]!
+  user: User
 }
 
 type Mutation {

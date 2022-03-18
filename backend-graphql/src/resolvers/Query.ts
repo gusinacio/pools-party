@@ -8,11 +8,26 @@ async function allQuestions(
   context: AppContext,
   _info: GraphQLResolveInfo
 ) {
-  return await context.prisma.question.findMany();
+  return await context.questionService.getQuestions();
+}
+
+async function user(
+  _parent: {},
+  _args: {},
+  context: AppContext,
+  _info: GraphQLResolveInfo
+) {
+  const userId = context.authService.userId;
+  if (!userId) {
+    throw new Error("Not authenticated");
+  }
+
+  return await context.userService.getUserById(userId);
 }
 
 const Query: QueryResolvers = {
   allQuestions,
+  user,
 };
 
 export default Query;

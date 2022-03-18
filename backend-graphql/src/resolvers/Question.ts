@@ -9,9 +9,10 @@ export async function creator(
   context: AppContext,
   _info: GraphQLResolveInfo
 ) {
-  return await context.prisma.question
-    .findUnique({ where: { id: parent.creatorId } })
-    .creator();
+  const question = await context.userService.getUserById(parent.creatorId);
+  if (!question) throw new Error("Question creator not found");
+
+  return question;
 }
 
 const Question: QuestionResolvers = {

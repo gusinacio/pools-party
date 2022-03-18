@@ -18,7 +18,7 @@ export function isLoggedInDirectiveTransformer(schema: GraphQLSchema) {
         const { resolve = defaultFieldResolver } = fieldConfig;
 
         fieldConfig.resolve = async function (source, args, context, info) {
-          if (context.userId != source.id) {
+          if (context.authService.userId != source.id) {
             throw new ForbiddenError("You must be logged in to do that!");
           }
           return await resolve(source, args, context, info);

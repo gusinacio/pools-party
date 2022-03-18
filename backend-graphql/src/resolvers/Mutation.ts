@@ -1,30 +1,31 @@
 import { GraphQLResolveInfo } from "graphql";
 import { AppContext } from "..";
-import bcrypt from "bcrypt";
-import { BCRYPT_SALT_ROUNDS } from "../config";
-import { createToken } from "../utils";
 import {
   MutationCreateQuestionArgs,
   MutationLoginArgs,
   MutationResolvers,
   MutationSignupArgs,
+  ResolversTypes,
 } from "../../generate/resolvers-types";
+import { getPasswordHash } from "../utils";
 
 async function signup(
   _parent: {},
   args: MutationSignupArgs,
   context: AppContext,
   _info: GraphQLResolveInfo
-) {
-  const passwordHash = await bcrypt.hash(args.password, BCRYPT_SALT_ROUNDS);
+): Promise<ResolversTypes["AuthPayload"]> {
   const email = args.email.toLowerCase();
   const username = args.username.toLowerCase();
+  const passwordHash = await getPasswordHash(args.password);
 
-  const user = await context.prisma.user.create({
-    data: { username, email, passwordHash },
-  });
+  const user = await context.userService.createUser(
+    username,
+    email,
+    passwordHash
+  );
 
-  const token = createToken(user.id);
+  const token = context.authService.createToken(user);
 
   return {
     token,
@@ -37,31 +38,27 @@ async function login(
   args: MutationLoginArgs,
   context: AppContext,
   _info: GraphQLResolveInfo
-) {
+): Promise<ResolversTypes["AuthPayload"]> {
   const email = args.email.toLowerCase();
 
-  const user = await context.prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
+  const user = await context.userService.getUserByEmail(email);
 
   if (!user) {
     throw new Error("Invalid username or password");
   }
 
-  const valid = await bcrypt.compare(args.password, user.passwordHash);
+  const valid = await context.authService.validatePassword(
+    args.password,
+    user.passwordHash
+  );
 
   if (!valid) {
     throw new Error("Invalid username or password");
   }
 
-  const token = createToken(user.id);
+  const token = context.authService.createToken(user);
 
-  return {
-    token,
-    user,
-  };
+  return { token, user };
 }
 
 async function createQuestion(
@@ -70,22 +67,18 @@ async function createQuestion(
   context: AppContext,
   _info: GraphQLResolveInfo
 ) {
-  const userId = context.userId;
+  const userId = context.authService.userId;
 
   if (!userId) {
     throw new Error("Not authenticated");
   }
 
-  const question = await context.prisma.question.create({
-    data: {
-      title: args.title,
-      options: {
-        set: args.options,
-      },
-      expiresAt: args.expiresAt,
-      creatorId: userId,
-    },
-  });
+  const question = await context.questionService.createQuestion(
+    userId,
+    args.title,
+    args.options,
+    args.expiresAt
+  );
 
   return question;
 }
