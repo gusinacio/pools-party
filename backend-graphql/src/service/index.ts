@@ -1,4 +1,4 @@
-import { Question, User } from "@prisma/client";
+import { Alternative, Answer, Question, User } from "@prisma/client";
 
 export interface AuthService {
   createToken: (user: User) => string;
@@ -7,6 +7,11 @@ export interface AuthService {
 }
 
 export interface QuestionService {
+  answerQuestion: (
+    userId: number,
+    qustionId: number,
+    choosedOption: number
+  ) => Promise<Answer>;
   createQuestion: (
     creatorId: number,
     title: string,
@@ -15,6 +20,10 @@ export interface QuestionService {
   ) => Promise<Question>;
   getQuestions: () => Promise<Question[]>;
   getUserQuestions: (userId: number) => Promise<Question[]>;
+  checkUserVoted: (userId: number, questionId: number) => Promise<number>;
+  getTotalVotes: (questionId: number) => Promise<number>;
+  getQuestionAlternatives: (questionId: number) => Promise<Alternative[]>;
+  checkQuestionFinished: (questionId: number) => Promise<boolean>;
 }
 
 export interface UserService {
@@ -23,6 +32,6 @@ export interface UserService {
     email: string,
     passwordHash: string
   ) => Promise<User>;
-  getUserByEmail: (email: string) => Promise<any>;
-  getUserById: (id: number) => Promise<any>;
+  getUserByEmail: (email: string) => Promise<User | null>;
+  getUserById: (id: number) => Promise<User | null>;
 }

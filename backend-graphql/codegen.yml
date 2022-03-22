@@ -5,8 +5,14 @@ generates:
       - typescript
       - typescript-resolvers
     config:
+      contextType: ../src/index#AppContext
       useIndexSignature: true
       mapperTypeSuffix: Model
       mappers:
-        Question: ‘@prisma/client/index.d#Question
-        User: ‘@prisma/client/index.d#User
+        Question: "@prisma/client/index.d#Question"
+        Alternative: "@prisma/client/index.d#Alternative"
+        Answer: "@prisma/client/index.d#Answer"
+        User: "@prisma/client/index.d#User"
+      scalars:
+        ID: number
+        Date: Date

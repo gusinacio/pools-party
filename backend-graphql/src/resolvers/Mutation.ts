@@ -1,6 +1,7 @@
 import { GraphQLResolveInfo } from "graphql";
 import { AppContext } from "..";
 import {
+  MutationAnswerQuestionArgs,
   MutationCreateQuestionArgs,
   MutationLoginArgs,
   MutationResolvers,
@@ -83,10 +84,32 @@ async function createQuestion(
   return question;
 }
 
+async function answerQuestion(
+  _parent: {},
+  args: MutationAnswerQuestionArgs,
+  context: AppContext,
+  _info: GraphQLResolveInfo
+) {
+  const userId = context.authService.userId;
+
+  if (!userId) {
+    throw new Error("Not authenticated");
+  }
+
+  const answer = await context.questionService.answerQuestion(
+    userId,
+    args.qustionId,
+    args.choosedOption
+  );
+
+  return answer;
+}
+
 const Mutation: MutationResolvers = {
   signup,
   login,
   createQuestion,
+  answerQuestion
 };
 
 export default Mutation;

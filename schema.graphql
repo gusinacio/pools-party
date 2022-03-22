@@ -11,43 +11,48 @@ type User {
   createdAt: Date! @isLoggedin
   # wallet: Wallet! @isLoggedin
   questions: [Question!]! @isLoggedin
-  answers: [Answer!]! @isLoggedin
+  # answers: [Answer!]! @isLoggedin
 }
 
 type Question {
   id: ID!
   title: String!
-  options: [String!]!
+  alternatives: [Alternative!]!
   creator: User!
   createdAt: Date!
   expiresAt: Date!
-  answers: [Answer!]! @isFinished
+  totalVotes: Int!
+  userVoted: Int!
+}
+
+type Alternative {
+  id: ID!
+  text: String!
+  votes: Int! @isFinished
 }
 
 type Answer {
-  id: ID!
-  user: User!
   question: Question!
-  choosedOption: Int!
+  alternativeId: Int!
 }
 
-type ClaimReward {
-  id: ID!
-  user: User!
-  lastTimeRewarded: Date!
-}
+# type ClaimReward {
+#   id: ID!
+#   user: User!
+#   lastTimeRewarded: Date!
+# }
 
-type Wallet {
-  id: ID!
-  balance: Int!
-  transactions: [Transaction!]!
-}
+# type Wallet {
+#   id: ID!
+#   balance: Int!
+#   transactions: [Transaction!]!
+# }
 
-type Transaction {
-  id: ID!
-  amount: Int!
-  timestamp: Date!
-}
+# type Transaction {
+#   id: ID!
+#   amount: Int!
+#   timestamp: Date!
+# }
 
 type AuthPayload {
   token: String
@@ -67,4 +72,5 @@ type Mutation {
     options: [String!]!
     expiresAt: Date!
   ): Question
+  answerQuestion(qustionId: Int!, choosedOption: Int!): Answer
 }
