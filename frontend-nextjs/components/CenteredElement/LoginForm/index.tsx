@@ -1,7 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
-import { MouseEventHandler, useState } from "react";
+import { useRouter } from "next/router";
+import { FormEvent, useEffect, useState } from "react";
 import {
+  Alert,
   Button,
   Card,
   Col,
@@ -10,21 +11,48 @@ import {
   Form,
   Row,
 } from "react-bootstrap";
+import { useLoginMutation } from "../../../graphql/generated";
+import { useAuth } from "../../../lib/hooks/useAuth";
 import { useInput } from "../../../lib/hooks/useInput";
 
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 export function LoginForm(): JSX.Element | null {
+  const router = useRouter();
   const email = useInput("");
   const password = useInput("");
-
+  const [login, { data, error }] = useLoginMutation();
+  const { setToken } = useAuth();
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  function handleLogin(): void {
+  useEffect(() => {
+    if (error) {
+      setErrorMessage(error.message);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    const authPayload = data?.login;
+    if (authPayload) {
+      setToken(authPayload);
+      router.push("/");
+    }
+  }, [data, router, setToken]);
+
+  async function handleLogin(e: FormEvent): Promise<void> {
+    e.preventDefault();
     validateEmail();
     validatePassword();
-    console.log(`${email.value} ${password.value}`);
+    if (!invalidEmail && !invalidPassword) {
+      login({
+        variables: {
+          email: email.value,
+          password: password.value,
+        },
+      }).catch(() => {});
+    }
   }
 
   function validateEmail(): void {
@@ -50,8 +78,21 @@ export function LoginForm(): JSX.Element | null {
         <Row>
           <Card bg="light">
             <Container>
-              <Form noValidate>
-                <Row className="mb-3 mt-5">
+              <Form noValidate className="mt-5" onSubmit={handleLogin}>
+                {errorMessage && (
+                  <Row className="mb-3">
+                    <Col>
+                      <Alert
+                        variant="danger"
+                        dismissible
+                        onClose={() => setErrorMessage("")}
+                      >
+                        {errorMessage}
+                      </Alert>
+                    </Col>
+                  </Row>
+                )}
+                <Row className="mb-3">
                   <Col>
                     <Form.Group>
                       <FloatingLabel id="email" label="email">
@@ -102,7 +143,7 @@ export function LoginForm(): JSX.Element | null {
                     </Button>
                   </Col>
                   <Col className="d-flex justify-content-end">
-                    <Button variant="secondary" onClick={handleLogin}>
+                    <Button type="submit" variant="secondary">
                       Login
                     </Button>
                   </Col>
