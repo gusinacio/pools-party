@@ -45,7 +45,7 @@ async function login(
   const user = await context.userService.getUserByEmail(email);
 
   if (!user) {
-    throw new Error("Invalid username or password");
+    throw new Error("Invalid email or password");
   }
 
   const valid = await context.authService.validatePassword(
@@ -54,7 +54,7 @@ async function login(
   );
 
   if (!valid) {
-    throw new Error("Invalid username or password");
+    throw new Error("Invalid email or password");
   }
 
   const token = context.authService.createToken(user);
