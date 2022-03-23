@@ -37,28 +37,12 @@ export default function PrismaQuestionService(
   }
 
   async function getTotalVotes(questionId: number): Promise<number> {
-    const alternatives = await database.question.findFirst({
+    const totalVotes = await database.answer.count({
       where: {
-        id: questionId,
-      },
-      include: {
-        alternatives: {
-          include: {
-            _count: {
-              select: {
-                Answer: true,
-              },
-            },
-          },
-        },
+        questionId: questionId,
       },
     });
-    const totalVotes = alternatives?.alternatives
-      .map((alt) => alt._count.Answer)
-      .reduce((acc, curr) => {
-        return acc + curr;
-      });
-    return totalVotes ? totalVotes : 0;
+    return totalVotes;
   }
 
   async function getUserQuestions(userId: number): Promise<Question[]> {
