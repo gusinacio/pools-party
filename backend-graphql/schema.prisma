@@ -44,18 +44,18 @@ model Question {
 }
 
 model Alternative {
-  Question   Question? @relation(fields: [questionId], references: [id])
-  questionId Int
-  id         Int
-  text       String
-  Answer     Answer[]
+  Question      Question? @relation(fields: [questionId], references: [id])
+  questionId    Int
+  alternativeId Int
+  text          String
+  Answer        Answer[]
 
-  @@id([questionId, id])
+  @@id([questionId, alternativeId])
 }
 
 model Answer {
   when          DateTime    @default(now())
-  alternative   Alternative @relation(fields: [questionId, alternativeId], references: [questionId, id])
+  alternative   Alternative @relation(fields: [questionId, alternativeId], references: [questionId, alternativeId])
   alternativeId Int
   question      Question    @relation(fields: [questionId], references: [id])
   questionId    Int

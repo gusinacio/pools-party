@@ -27,21 +27,20 @@ CREATE TABLE "Question" (
 -- CreateTable
 CREATE TABLE "Alternative" (
     "questionId" INTEGER NOT NULL,
-    "id" INTEGER NOT NULL,
+    "alternativeId" INTEGER NOT NULL,
     "text" TEXT NOT NULL,
 
-    CONSTRAINT "Alternative_pkey" PRIMARY KEY ("questionId","id")
+    CONSTRAINT "Alternative_pkey" PRIMARY KEY ("questionId","alternativeId")
 );
 
 -- CreateTable
 CREATE TABLE "Answer" (
-    "id" SERIAL NOT NULL,
     "when" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "alternativeId" INTEGER NOT NULL,
     "questionId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
 
-    CONSTRAINT "Answer_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Answer_pkey" PRIMARY KEY ("userId","questionId")
 );
 
 -- CreateIndex
@@ -60,4 +59,7 @@ ALTER TABLE "Alternative" ADD CONSTRAINT "Alternative_questionId_fkey" FOREIGN K
 ALTER TABLE "Answer" ADD CONSTRAINT "Answer_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Answer" ADD CONSTRAINT "Answer_questionId_alternativeId_fkey" FOREIGN KEY ("questionId", "alternativeId") REFERENCES "Alternative"("questionId", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Answer" ADD CONSTRAINT "Answer_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Answer" ADD CONSTRAINT "Answer_questionId_alternativeId_fkey" FOREIGN KEY ("questionId", "alternativeId") REFERENCES "Alternative"("questionId", "alternativeId") ON DELETE RESTRICT ON UPDATE CASCADE;

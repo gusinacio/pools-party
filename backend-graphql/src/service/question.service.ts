@@ -22,7 +22,7 @@ export default function PrismaQuestionService(
           createMany: {
             data: options.map((opt, index) => ({
               text: opt,
-              id: index + 1,
+              alternativeId: index + 1,
             })),
           },
         },

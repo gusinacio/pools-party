@@ -26,7 +26,7 @@ type Question {
 }
 
 type Alternative {
-  id: ID!
+  alternativeId: Int!
   text: String!
   votes: Int! @isFinished
 }
@@ -55,8 +55,8 @@ type Answer {
 # }
 
 type AuthPayload {
-  token: String
-  user: User
+  token: String!
+  user: User!
 }
 
 type Query {
@@ -65,7 +65,7 @@ type Query {
 }
 
 type Mutation {
-  signup(email: String!, password: String!, username: String!): AuthPayload
+  signup(email: String!, password: String!, username: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload
   createQuestion(
     title: String!
