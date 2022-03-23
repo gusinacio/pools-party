@@ -7,6 +7,7 @@ import {
   ToastBody,
   ToastContainer,
 } from "react-bootstrap";
+import { useAnswerQuestionMutation } from "../../../graphql/generated";
 import { Alternative } from "./Alternative";
 
 interface Question {
@@ -35,6 +36,7 @@ export function Question({
   totalVotes,
   userVoted,
 }: Question): JSX.Element {
+  const [vote, { data, error }] = useAnswerQuestionMutation();
   const [toast, setToast] = useState(false);
   const [voted, setVoted] = useState<number>(userVoted);
   const expiration = new Date(expiresAt);
@@ -50,10 +52,21 @@ export function Question({
 
   const winner = getWinner();
 
-  function onVote(index: number) {
-    console.log(index);
+  useEffect(() => {
+    const vote = data?.answerQuestion;
+    if (vote) {
+      setVoted(vote.alternativeId);
+    }
+  }, [data, setVoted]);
+
+  async function onVote(index: number) {
     if (voted != -1) return;
-    setVoted(index);
+    vote({
+      variables: {
+        choosedOption: index,
+        qustionId: parseInt(id),
+      },
+    });
   }
 
   const choiceElement = alternatives.map((alternative) => {

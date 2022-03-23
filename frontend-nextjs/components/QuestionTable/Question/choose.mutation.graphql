@@ -1,0 +1,8 @@
+mutation AnswerQuestion($qustionId: Int!, $choosedOption: Int!) {
+  answerQuestion(qustionId: $qustionId, choosedOption: $choosedOption) {
+    question {
+      id
+    }
+    alternativeId
+  }
+}
