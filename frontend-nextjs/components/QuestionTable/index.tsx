@@ -4,42 +4,10 @@ import { Question } from "./Question";
 import { useEffect } from "react";
 import { useQuestionQuery } from "../../graphql/generated";
 
-
-const questionList = [
-  {
-    title: "Quem irá vencer as eleições de 2022 no Brasil?",
-    choices: ["Lula", "Bolsonaro", "Moro", "Nenhum deles"],
-    expiration: new Date(2022, 9, 30),
-    votes: 890,
-  },
-  {
-    title: "Bitcoin chegará a US$100k até final de 2022?",
-    choices: ["Sim", "Não"],
-    expiration: new Date(2022, 11, 30),
-    votes: 1023,
-  },
-  {
-    title: "O grupo #9 vai receber nota 10 no AG2?",
-    choices: ["Sim", "Claro", "Com certeza", "Isso é uma pergunta?"],
-    expiration: new Date(2022, 1, 18),
-    votes: 2,
-  },
-  {
-    title: "Quem irá vencer as eleições de 2018 no Brasil?",
-    choices: ["Haddad", "Bolsonaro", "Alckmin", "Nenhum deles"],
-    expiration: new Date(2018, 11, 30),
-    votes: 2432,
-    winner: 1,
-    results: [321, 1120, 435, 556],
-  },
-];
-
 export function QuestionTable(): JSX.Element | null {
-  const { data } = useQuestionQuery();
+  const { data, error, loading, called } = useQuestionQuery();
+
   const groupSize = 2;
-  useEffect(() => {
-    console.log(data?.allQuestions)
-  }, [data]);
 
   const questionsElement = data?.allQuestions
     .map((question, index) => {

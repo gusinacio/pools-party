@@ -17,15 +17,14 @@ interface Question {
   expiresAt: any;
   userVoted: number;
   alternatives: {
-      id: string;
-      text: string;
-      votes: number;
+    alternativeId: number;
+    text: string;
+    votes: number;
   }[];
   creator: {
-      username: string;
+    username: string;
   };
 }
-
 
 export function Question({
   title,
@@ -57,20 +56,20 @@ export function Question({
     setVoted(index);
   }
 
-  const choiceElement = alternatives.map((alternative, index) => {
+  const choiceElement = alternatives.map((alternative) => {
+    const id = alternative.alternativeId;
     return (
       <Alternative
-        key={index}
-        index={index}
+        key={id}
+        index={id}
         alternative={alternative}
         winner={winner ? winner == alternative : false}
-        voted={voted == index}
+        voted={voted == id}
         onVote={onVote}
       />
     );
   });
 
-  
   const timeLeft = expiration.getTime() - new Date().getTime();
   const seconds = Math.floor(timeLeft / 1000);
   const minutes = Math.floor(seconds / 60);

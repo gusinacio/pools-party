@@ -26,7 +26,6 @@ export function Alternative({
   function mouseLeave() {
     // console.log("leave", choice);
   }
-
   return (
     <Row className="align-self-center w-100">
       <Button
