@@ -18,7 +18,10 @@ export interface QuestionService {
     options: string[],
     expiresAt: Date
   ) => Promise<Question>;
-  getQuestions: () => Promise<Question[]>;
+  getQuestions: (
+    offset: number,
+    limit: number
+  ) => Promise<{ total: number; results: Question[] }>;
   getUserQuestions: (userId: number) => Promise<Question[]>;
   checkUserVoted: (userId: number, questionId: number) => Promise<number>;
   getTotalVotes: (questionId: number) => Promise<number>;

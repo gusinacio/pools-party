@@ -36,6 +36,15 @@ type Answer {
   alternativeId: Int!
 }
 
+interface PaginatedResponse {
+  total: Int!
+}
+
+type PaginatedQuestions implements PaginatedResponse {
+  results: [Question!]!
+  total: Int!
+}
+
 # type ClaimReward {
 #   id: ID!
 #   user: User!
@@ -60,7 +69,7 @@ type AuthPayload {
 }
 
 type Query {
-  allQuestions: [Question!]!
+  questions(paginationInput: PaginationInput!): PaginatedQuestions!
   user: User
 }
 
@@ -69,8 +78,13 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload
   createQuestion(
     title: String!
-    options: [String!]!
+    alternatives: [String!]!
     expiresAt: Date!
   ): Question
-  answerQuestion(qustionId: Int!, choosedOption: Int!): Answer
+  answerQuestion(qustionId: Int!, choosedAlt: Int!): Answer
+}
+
+input PaginationInput {
+  limit: Int = 6
+  offset: Int = 0
 }

@@ -32,8 +32,25 @@ export default function PrismaQuestionService(
     });
   }
 
-  async function getQuestions(): Promise<Question[]> {
-    return await database.question.findMany();
+  async function getQuestions(
+    offset: number = 0,
+    limit: number = 6
+  ): Promise<{ total: number; results: Question[] }> {
+    const [total, results] = await database.$transaction([
+      database.question.count(),
+      database.question.findMany({
+        skip: offset,
+        take: limit,
+        orderBy: {
+          id: "desc",
+        }
+      }),
+    ]);
+
+    return {
+      total,
+      results,
+    };
   }
 
   async function getTotalVotes(questionId: number): Promise<number> {

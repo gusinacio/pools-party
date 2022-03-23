@@ -1,14 +1,22 @@
 import { GraphQLResolveInfo } from "graphql";
 import { AppContext } from "..";
-import { QueryResolvers, Question } from "../../generate/resolvers-types";
+import {
+  QueryQuestionsArgs,
+  QueryResolvers,
+  Question,
+} from "../../generate/resolvers-types";
 
-async function allQuestions(
+async function questions(
   _parent: {},
-  _args: {},
+  args: QueryQuestionsArgs,
   context: AppContext,
   _info: GraphQLResolveInfo
 ) {
-  return await context.questionService.getQuestions();
+  const limit = args.paginationInput.limit ? args.paginationInput.limit : 4;
+  const offset = args.paginationInput.offset ? args.paginationInput.offset : 0;
+
+  const results = await context.questionService.getQuestions(offset, limit);
+  return results;
 }
 
 async function user(
@@ -26,7 +34,7 @@ async function user(
 }
 
 const Query: QueryResolvers = {
-  allQuestions,
+  questions,
   user,
 };
 

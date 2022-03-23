@@ -1,0 +1,5 @@
+mutation CreateQuestion($title: String!, $alternatives: [String!]!, $expiresAt: Date!) {
+  createQuestion(title: $title, alternatives: $alternatives, expiresAt: $expiresAt) {
+    id
+  }
+}

@@ -77,7 +77,7 @@ async function createQuestion(
   const question = await context.questionService.createQuestion(
     userId,
     args.title,
-    args.options,
+    args.alternatives,
     args.expiresAt
   );
 
@@ -99,7 +99,7 @@ async function answerQuestion(
   const answer = await context.questionService.answerQuestion(
     userId,
     args.qustionId,
-    args.choosedOption
+    args.choosedAlt
   );
 
   return answer;

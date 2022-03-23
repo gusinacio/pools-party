@@ -1,18 +1,21 @@
-query Question {
-  allQuestions {
-    id
-    title
-    totalVotes
-    alternatives {
-      alternativeId
-      text
-      votes
+query Question($offset: Int, $limit: Int) {
+  questions(paginationInput: { offset: $offset, limit: $limit }) {
+    total
+    results {
+      id
+      title
+      totalVotes
+      alternatives {
+        alternativeId
+        text
+        votes
+      }
+      creator {
+        username
+      }
+      createdAt
+      expiresAt
+      userVoted
     }
-    creator {
-      username
-    }
-    createdAt
-    expiresAt
-    userVoted
   }
 }

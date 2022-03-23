@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.css";
 import type { AppProps } from "next/app";
 import { setContext } from "@apollo/client/link/context";
+import { offsetLimitPagination } from "@apollo/client/utilities";
 import Head from "next/head";
 import { useEffect } from "react";
 import {
@@ -19,19 +20,49 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem("token");
+  const authPayload = localStorage.getItem("authPayload");
+  if (authPayload) {
+    const payload = JSON.parse(authPayload);
+    const token = payload.token;
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : "",
+      },
+    };
+  }
   // return the headers to the context so httpLink can read them
   return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    },
+    headers: headers,
   };
+});
+
+const cache = new InMemoryCache({
+  typePolicies: {
+    questions: {
+      fields: {
+        questions: {
+          ...offsetLimitPagination(),
+          read(existing, { args }) {
+            console.log("read", existing, args);
+            if (!args) return undefined;
+            if (existing) console.log(existing);
+            const { offset, limit } = args;
+            // A read function should always return undefined if existing is
+            // undefined. Returning undefined signals that the field is
+            // missing from the cache, which instructs Apollo Client to
+            // fetch its value from your GraphQL server.
+            return existing && existing.slice(offset, offset + limit);
+          },
+        },
+      },
+    },
+  },
 });
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: cache,
 });
 
 function MyApp({ Component, pageProps }: AppProps) {

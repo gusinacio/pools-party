@@ -1,5 +1,5 @@
-mutation AnswerQuestion($qustionId: Int!, $choosedOption: Int!) {
-  answerQuestion(qustionId: $qustionId, choosedOption: $choosedOption) {
+mutation AnswerQuestion($qustionId: Int!, $choosedAlt: Int!) {
+  answerQuestion(qustionId: $qustionId, choosedAlt: $choosedAlt) {
     question {
       id
     }

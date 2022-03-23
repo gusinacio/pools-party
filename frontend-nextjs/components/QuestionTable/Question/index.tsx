@@ -43,15 +43,15 @@ export function Question({
 
   function getWinner() {
     if (expiration.getTime() - new Date().getTime() > 0) return null;
+    if (totalVotes == 0) return null;
     return alternatives.reduce((prev, current) => {
-      if (prev == null) return current;
-      if (prev.votes < current.votes) return current;
+      if (current.votes > prev.votes) return current;
       return prev;
     });
   }
 
   const winner = getWinner();
-
+  
   useEffect(() => {
     const vote = data?.answerQuestion;
     if (vote) {
@@ -63,7 +63,7 @@ export function Question({
     if (voted != -1) return;
     vote({
       variables: {
-        choosedOption: index,
+        choosedAlt: index,
         qustionId: parseInt(id),
       },
     });
