@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { Button, Row } from "react-bootstrap";
+import { Alternative } from "../../../../graphql/generated";
+
 
 interface Props {
   index: number;
-  choice: string;
-  finalized: boolean;
+  alternative: Alternative;
   winner: boolean;
   voted: boolean;
   onVote: (index: number) => void;
 }
 
-export function Choice({
+export function Alternative({
   index,
-  choice,
-  finalized,
+  alternative,
   winner,
   voted,
   onVote
@@ -35,10 +35,10 @@ export function Choice({
         onMouseEnter={mouseHover}
         onMouseLeave={mouseLeave}
         className="mb-1"
-        disabled={finalized}
+        disabled={alternative.votes >= 0}
         onClick={() => onVote(index)}
       >
-        {choice}
+        {alternative.text}
       </Button>
     </Row>
   );

@@ -7,53 +7,70 @@ import {
   ToastBody,
   ToastContainer,
 } from "react-bootstrap";
-import { Choice } from "./Choice";
+import { Alternative } from "./Alternative";
 
-interface Props {
-  index: number;
-
+interface Question {
+  id: string;
   title: string;
-  description?: string;
-  choices: string[];
-  expiration: Date;
-  votes: number;
-  winner?: number;
-  results?: number[];
+  totalVotes: number;
+  createdAt: any;
+  expiresAt: any;
+  userVoted: number;
+  alternatives: {
+      id: string;
+      text: string;
+      votes: number;
+  }[];
+  creator: {
+      username: string;
+  };
 }
+
 
 export function Question({
   title,
-  choices,
-  index,
-  description,
-  expiration,
-  votes,
-  winner,
-  results,
-}: Props): JSX.Element {
-  var [toast, setToast] = useState(false);
-  const [voted, setVoted] = useState<number>(-1);
+  alternatives,
+  id,
+  // description,
+  expiresAt,
+  totalVotes,
+  userVoted,
+}: Question): JSX.Element {
+  const [toast, setToast] = useState(false);
+  const [voted, setVoted] = useState<number>(userVoted);
+  const expiration = new Date(expiresAt);
+
+  function getWinner() {
+    if (expiration.getTime() - new Date().getTime() > 0) return null;
+    return alternatives.reduce((prev, current) => {
+      if (prev == null) return current;
+      if (prev.votes < current.votes) return current;
+      return prev;
+    });
+  }
+
+  const winner = getWinner();
 
   function onVote(index: number) {
-    console.log(index)
-    if (voted != -1) return
+    console.log(index);
+    if (voted != -1) return;
     setVoted(index);
   }
 
-  const choiceElement = choices.map((choice, index) => {
+  const choiceElement = alternatives.map((alternative, index) => {
     return (
-      <Choice
+      <Alternative
         key={index}
         index={index}
-        choice={choice}
-        finalized={winner ? true : voted != -1 && voted != index}
-        winner={winner ? winner == index : false}
+        alternative={alternative}
+        winner={winner ? winner == alternative : false}
         voted={voted == index}
         onVote={onVote}
       />
     );
   });
 
+  
   const timeLeft = expiration.getTime() - new Date().getTime();
   const seconds = Math.floor(timeLeft / 1000);
   const minutes = Math.floor(seconds / 60);
@@ -79,11 +96,11 @@ export function Question({
         onMouseLeave={() => setToast(false)}
       >
         <Card.Header className="bg-secondary text-white">
-          pergunta #{index}
+          pergunta #{id}
         </Card.Header>
         <Card.Body className="fixed-height">
           <Card.Title className="text-center">{title}</Card.Title>
-          {description && <Card.Text>{description}</Card.Text>}
+          {/* {description && <Card.Text>{description}</Card.Text>} */}
           <div className="d-flex h-100">
             <Row className="align-self-center w-100">
               <Col className="d-flex flex-column align-items-center">
@@ -103,14 +120,14 @@ export function Question({
       >
         <Toast show={toast}>
           <Toast.Header>
-            <strong className="me-auto">pergunta #{index}</strong>
+            <strong className="me-auto">pergunta #{id}</strong>
             <small>{timeLeftString}</small>
           </Toast.Header>
           <ToastBody>
-            <p>Total de votos: {votes}</p>
-            {winner && results ? (
+            <p>Total de votos: {totalVotes}</p>
+            {winner ? (
               <p>
-                Resultado final: {choices[winner]} com {results[winner]} votos
+                Resultado final: {winner.text} com {winner.votes} votos
               </p>
             ) : null}
           </ToastBody>

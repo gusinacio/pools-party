@@ -3,6 +3,18 @@ import "bootstrap/dist/css/bootstrap.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useEffect } from "react";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  useQuery,
+  gql,
+} from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: process.env.NEXT_PUBLIC_API_URL,
+  cache: new InMemoryCache(),
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -15,7 +27,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Component {...pageProps} />
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
     </>
   );
 }

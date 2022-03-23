@@ -1,6 +1,9 @@
 import { Col, Container, Row } from "react-bootstrap";
 import { QuestionPage } from "./QuestionPage";
 import { Question } from "./Question";
+import { useEffect } from "react";
+import { useQuestionQuery } from "../../graphql/generated";
+
 
 const questionList = [
   {
@@ -32,8 +35,13 @@ const questionList = [
 ];
 
 export function QuestionTable(): JSX.Element | null {
+  const { data } = useQuestionQuery();
   const groupSize = 2;
-  const questionsElement = questionList
+  useEffect(() => {
+    console.log(data?.allQuestions)
+  }, [data]);
+
+  const questionsElement = data?.allQuestions
     .map((question, index) => {
       return (
         <Col
@@ -42,7 +50,7 @@ export function QuestionTable(): JSX.Element | null {
           lg={6}
           className={index % 2 == 0 ? "mb-3 mb-lg-0" : ""}
         >
-          <Question key={index} index={index + 1} {...question} />
+          <Question key={index} {...question} />
         </Col>
       );
     })

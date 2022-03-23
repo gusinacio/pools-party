@@ -1,0 +1,18 @@
+query Question {
+  allQuestions {
+    id
+    title
+    totalVotes
+    alternatives {
+      id
+      text
+      votes
+    }
+    creator {
+      username
+    }
+    createdAt
+    expiresAt
+    userVoted
+  }
+}
