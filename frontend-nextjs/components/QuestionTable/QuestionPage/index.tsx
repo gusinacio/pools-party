@@ -17,7 +17,7 @@ export function QuestionPage({
   const pages: number[] = [];
   let nextDisabled = false;
   let prevDisabled = false;
-  const from = Math.min(Math.max(1, currentPage - 2), totalPages - 4);
+  const from = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
   const to = Math.min(totalPages, from + 4);
   for (let i = from; i <= to; i++) {
     pages.push(i);

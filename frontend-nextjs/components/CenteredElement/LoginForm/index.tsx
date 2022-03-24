@@ -152,7 +152,7 @@ export function LoginForm(): JSX.Element | null {
             </Container>
           </Card>
         </Row>
-        <Row>
+        {/* <Row>
           <Row className="mt-2">
             <Col className="d-flex justify-content-center">
               <Button href="/forgot-password" variant="link">
@@ -160,7 +160,7 @@ export function LoginForm(): JSX.Element | null {
               </Button>
             </Col>
           </Row>
-        </Row>
+        </Row> */}
       </Container>
     </Col>
   );
