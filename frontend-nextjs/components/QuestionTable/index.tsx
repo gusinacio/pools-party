@@ -1,18 +1,9 @@
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Placeholder,
-  Row,
-  Spinner,
-} from "react-bootstrap";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 import { QuestionPage } from "./QuestionPage";
 import { Question } from "./Question";
 import { useEffect, useState } from "react";
 import { useQuestionQuery } from "../../graphql/generated";
 import { useRouter } from "next/router";
-import { CenteredForm } from "../CenteredElement";
 
 const PAGE_SIZE = 4;
 
@@ -46,7 +37,7 @@ export function QuestionTable(): JSX.Element | null {
             lg={6}
             className={index % 2 == 0 ? "mb-3 mb-lg-0" : ""}
           >
-            <Question key={index} refetch={refetch} {...question} />
+            <Question key={question.id} refetch={refetch} {...question} />
           </Col>
         );
       })
@@ -84,7 +75,6 @@ export function QuestionTable(): JSX.Element | null {
       <QuestionPage
         currentPage={page}
         onClick={async (page: number) => {
-          console.log("CLICK")
           fetchMore({
             variables: {
               offset: (page - 1) * PAGE_SIZE,
