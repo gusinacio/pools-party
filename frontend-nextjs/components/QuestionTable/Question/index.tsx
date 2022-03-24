@@ -1,3 +1,4 @@
+import { ApolloQueryResult } from "@apollo/client";
 import { useEffect, useRef, useState } from "react";
 import {
   Card,
@@ -7,7 +8,7 @@ import {
   ToastBody,
   ToastContainer,
 } from "react-bootstrap";
-import { useAnswerQuestionMutation } from "../../../graphql/generated";
+import { QuestionQuery, useAnswerQuestionMutation } from "../../../graphql/generated";
 import { Alternative } from "./Alternative";
 
 interface Question {
@@ -25,6 +26,8 @@ interface Question {
   creator: {
     username: string;
   };
+
+  refetch: () => Promise<ApolloQueryResult<QuestionQuery>>;
 }
 
 export function Question({
@@ -35,6 +38,7 @@ export function Question({
   expiresAt,
   totalVotes,
   userVoted,
+  refetch
 }: Question): JSX.Element {
   const [vote, { data, error }] = useAnswerQuestionMutation();
   const [toast, setToast] = useState(false);
@@ -56,8 +60,9 @@ export function Question({
     const vote = data?.answerQuestion;
     if (vote) {
       setVoted(vote.alternativeId);
+      refetch();
     }
-  }, [data, setVoted]);
+  }, [data, setVoted, refetch]);
 
   async function onVote(index: number) {
     if (voted != -1) return;

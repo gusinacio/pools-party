@@ -1,9 +1,18 @@
-import { Button, Card, Col, Container, Placeholder, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Placeholder,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import { QuestionPage } from "./QuestionPage";
 import { Question } from "./Question";
 import { useEffect, useState } from "react";
 import { useQuestionQuery } from "../../graphql/generated";
 import { useRouter } from "next/router";
+import { CenteredForm } from "../CenteredElement";
 
 const PAGE_SIZE = 4;
 
@@ -12,7 +21,7 @@ export function QuestionTable(): JSX.Element | null {
 
   const [page, setPage] = useState(1);
 
-  const { data, error, loading } = useQuestionQuery({
+  const { data, loading, refetch } = useQuestionQuery({
     variables: {
       limit: PAGE_SIZE,
       offset: (page - 1) * PAGE_SIZE,
@@ -34,7 +43,7 @@ export function QuestionTable(): JSX.Element | null {
             lg={6}
             className={index % 2 == 0 ? "mb-3 mb-lg-0" : ""}
           >
-            <Question key={index} {...question} />
+            <Question key={index} refetch={refetch} {...question } />
           </Col>
         );
       })
@@ -49,10 +58,25 @@ export function QuestionTable(): JSX.Element | null {
         </Row>
       ));
     setQuestionElements(questionsElement);
-  }, [data, router]);
+  }, [data, router, refetch]);
+
+  if (loading) {
+    return (
+      <Container style={{ minHeight: "85vh" }} className="d-flex">
+        <Spinner
+          animation="border"
+          role="status"
+          className="align-self-center mx-auto"
+          style={{ width: "5rem", height: "5rem" }}
+        >
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </Container>
+    );
+  }
 
   return (
-    <Container>
+    <Container style={{ minHeight: "85vh" }}>
       {questionElements}
       <QuestionPage
         currentPage={page}
