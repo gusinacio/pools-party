@@ -43,9 +43,7 @@ const cache = new InMemoryCache({
       fields: {
         questions: {
           merge(existing, incoming, { args }) {
-            console.log("merge", existing, incoming, args);
             if (!args) {
-              console.log("no args");
               return undefined;
             }
             const { paginationInput: { offset} } = args;
@@ -53,7 +51,6 @@ const cache = new InMemoryCache({
             for (let i = 0; i < incoming.results.length; ++i) {
               merged[offset + i] = incoming.results[i];
             }
-            console.log(merged)
             return {
               total: incoming.total,
               results: merged,
@@ -61,14 +58,11 @@ const cache = new InMemoryCache({
           },
           // ...offsetLimitPagination(),
           read(existing, { args }) {
-            console.log("read", existing, args);
             if (!args) return undefined;
             if (!existing)  return undefined;
             const { paginationInput: { offset, limit} } = args;
-            console.log(offset, limit, existing)
             const results = existing.results.slice(offset, offset + limit)
             if (results.length === 0) return undefined;
-            console.log(results)
             return {
               total: existing.total,
               results,

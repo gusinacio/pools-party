@@ -26,15 +26,31 @@ export function Alternative({
   function mouseLeave() {
     // console.log("leave", choice);
   }
+  const finished = alternative.votes >= 0;
+  let variant = "outline-secondary";
+  if (voted) {
+    if (finished) {
+      if (winner) {
+        variant = "success";
+      } else {
+        variant = "danger";
+      }
+    } else {
+      variant = "primary";
+    }
+  } else if(winner) {
+    variant = "secondary";
+  }
+
   return (
     <Row className="align-self-center w-100">
       <Button
-        variant={winner ? "secondary" : (voted ? "primary" :  "outline-secondary")}
+        variant={variant}
         type="button"
         onMouseEnter={mouseHover}
         onMouseLeave={mouseLeave}
         className="mb-1"
-        disabled={alternative.votes >= 0}
+        disabled={finished}
         onClick={() => onVote(index)}
       >
         {alternative.text}
