@@ -21,7 +21,7 @@ export function QuestionTable(): JSX.Element | null {
 
   const [page, setPage] = useState(1);
 
-  const { data, loading, refetch } = useQuestionQuery({
+  const { data, loading, refetch, fetchMore } = useQuestionQuery({
     variables: {
       limit: PAGE_SIZE,
       offset: (page - 1) * PAGE_SIZE,
@@ -33,6 +33,9 @@ export function QuestionTable(): JSX.Element | null {
 
   useEffect(() => {
     router.query.page && setPage(parseInt(router.query.page as string));
+  }, [router]);
+
+  useEffect(() => {
     if (!data) return;
     const questionsElement = data.questions.results
       .map((question, index) => {
@@ -43,7 +46,7 @@ export function QuestionTable(): JSX.Element | null {
             lg={6}
             className={index % 2 == 0 ? "mb-3 mb-lg-0" : ""}
           >
-            <Question key={index} refetch={refetch} {...question } />
+            <Question key={index} refetch={refetch} {...question} />
           </Col>
         );
       })
@@ -80,6 +83,22 @@ export function QuestionTable(): JSX.Element | null {
       {questionElements}
       <QuestionPage
         currentPage={page}
+        onClick={async (page: number) => {
+          console.log("CLICK")
+          fetchMore({
+            variables: {
+              offset: (page - 1) * PAGE_SIZE,
+            },
+          });
+          setPage(page);
+        }}
+        // onHover={async (page: number) => {
+        //   fetchMore({
+        //     variables: {
+        //       offset: (page - 1) * PAGE_SIZE,
+        //     },
+        //   });
+        // }}
         totalPages={
           data?.questions.total
             ? Math.ceil(data?.questions.total / PAGE_SIZE)

@@ -39,20 +39,40 @@ const authLink = setContext((_, { headers }) => {
 
 const cache = new InMemoryCache({
   typePolicies: {
-    questions: {
+    Query: {
       fields: {
         questions: {
-          ...offsetLimitPagination(),
+          merge(existing, incoming, { args }) {
+            console.log("merge", existing, incoming, args);
+            if (!args) {
+              console.log("no args");
+              return undefined;
+            }
+            const { paginationInput: { offset} } = args;
+            const merged = existing && existing.results ? existing.results.slice(0) : [];
+            for (let i = 0; i < incoming.results.length; ++i) {
+              merged[offset + i] = incoming.results[i];
+            }
+            console.log(merged)
+            return {
+              total: incoming.total,
+              results: merged,
+            };
+          },
+          // ...offsetLimitPagination(),
           read(existing, { args }) {
             console.log("read", existing, args);
             if (!args) return undefined;
-            if (existing) console.log(existing);
-            const { offset, limit } = args;
-            // A read function should always return undefined if existing is
-            // undefined. Returning undefined signals that the field is
-            // missing from the cache, which instructs Apollo Client to
-            // fetch its value from your GraphQL server.
-            return existing && existing.slice(offset, offset + limit);
+            if (!existing)  return undefined;
+            const { paginationInput: { offset, limit} } = args;
+            console.log(offset, limit, existing)
+            const results = existing.results.slice(offset, offset + limit)
+            if (results.length === 0) return undefined;
+            console.log(results)
+            return {
+              total: existing.total,
+              results,
+            }
           },
         },
       },
