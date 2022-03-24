@@ -16,6 +16,8 @@ async function signup(
   context: AppContext,
   _info: GraphQLResolveInfo
 ): Promise<ResolversTypes["AuthPayload"]> {
+  if (args.password.length < 6)
+    throw new Error("Password must be at least 6 characters long");
   const email = args.email.toLowerCase();
   const username = args.username.toLowerCase();
   const passwordHash = await getPasswordHash(args.password);
@@ -109,7 +111,7 @@ const Mutation: MutationResolvers = {
   signup,
   login,
   createQuestion,
-  answerQuestion
+  answerQuestion,
 };
 
 export default Mutation;
