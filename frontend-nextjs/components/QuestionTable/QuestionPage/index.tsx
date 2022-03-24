@@ -13,8 +13,9 @@ export function QuestionPage({
   const pages: number[] = [];
   let nextDisabled = false;
   let prevDisabled = false;
-
-  for (let i = Math.max(currentPage - 2, 1); i <= Math.min(totalPages, currentPage + 2); i++) {
+  const from = Math.min(Math.max(1, currentPage - 2), totalPages - 4);
+  const to = Math.min(totalPages, from + 4);
+  for (let i = from; i <= to; i++) {
     pages.push(i);
   }
 
@@ -32,8 +33,8 @@ export function QuestionPage({
           href={`/?page=${currentPage - 1}`}
           disabled={prevDisabled}
         ></Pagination.First>
-        {pages.map((page, index) => (
-          <Pagination.Item key={index} active={index + 1 == currentPage} href={`/?page=${index + 1}`}>
+        {pages.map((page) => (
+          <Pagination.Item key={page} active={page == currentPage} href={`/?page=${page}`}>
             {page}
           </Pagination.Item>
         ))}
