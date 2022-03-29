@@ -20,37 +20,22 @@ export function QuestionTable(): JSX.Element | null {
   });
   const [questionElements, setQuestionElements] = useState<JSX.Element[]>([]);
 
-  const groupSize = 2;
-
   useEffect(() => {
     router.query.page && setPage(parseInt(router.query.page as string));
   }, [router]);
 
   useEffect(() => {
     if (!data) return;
-    const questionsElement = data.questions.results
-      .map((question, index) => {
-        return (
-          <Col
-            key={index}
-            xs={12}
-            lg={6}
-            className={index % 2 == 0 ? "mb-3 mb-lg-0" : ""}
-          >
-            <Question key={question.id} refetch={refetch} {...question} />
-          </Col>
-        );
-      })
-      .reduce<JSX.Element[][]>((r, element, index) => {
-        index % groupSize === 0 && r.push([]);
-        r[r.length - 1].push(element);
-        return r;
-      }, [])
-      .map((row, index) => (
-        <Row className="mt-3" key={index}>
-          {row}
-        </Row>
-      ));
+    const questionsElement = data.questions.results.map((question, index) => {
+      return (
+        <Col
+          key={index}
+          className="mb-3"
+        >
+          <Question key={question.id} refetch={refetch} {...question} />
+        </Col>
+      );
+    });
     setQuestionElements(questionsElement);
   }, [data, router, refetch]);
 
@@ -71,7 +56,7 @@ export function QuestionTable(): JSX.Element | null {
 
   return (
     <Container style={{ minHeight: "85vh" }}>
-      {questionElements}
+      <Row xs={1} lg={2} className="g-3">{questionElements}</Row>
       <QuestionPage
         currentPage={page}
         onClick={async (page: number) => {

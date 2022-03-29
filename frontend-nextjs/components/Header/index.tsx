@@ -4,7 +4,7 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 
 export function Header(): JSX.Element | null {
   return (
-    <Navbar bg="secondary" expand="lg">
+    <Navbar bg="secondary" expand="lg" className="mb-3">
       <Container>
         <Link href="/" passHref>
           <Navbar.Brand className="text-light" href="#">
