@@ -9,9 +9,7 @@ type User {
   username: String!
   email: String! @isLoggedin
   createdAt: Date! @isLoggedin
-  # wallet: Wallet! @isLoggedin
   questions: [Question!]! @isLoggedin
-  # answers: [Answer!]! @isLoggedin
 }
 
 type Question {
@@ -45,23 +43,6 @@ type PaginatedQuestions implements PaginatedResponse {
   total: Int!
 }
 
-# type ClaimReward {
-#   id: ID!
-#   user: User!
-#   lastTimeRewarded: Date!
-# }
-
-# type Wallet {
-#   id: ID!
-#   balance: Int!
-#   transactions: [Transaction!]!
-# }
-
-# type Transaction {
-#   id: ID!
-#   amount: Int!
-#   timestamp: Date!
-# }
 
 type AuthPayload {
   token: String!
@@ -75,13 +56,13 @@ type Query {
 
 type Mutation {
   signup(email: String!, password: String!, username: String!): AuthPayload!
-  login(email: String!, password: String!): AuthPayload
+  login(email: String!, password: String!): AuthPayload!
   createQuestion(
     title: String!
     alternatives: [String!]!
     expiresAt: Date!
-  ): Question
-  answerQuestion(qustionId: Int!, choosedAlt: Int!): Answer
+  ): Question!
+  answerQuestion(qustionId: Int!, choosedAlt: Int!): Answer!
 }
 
 input PaginationInput {
