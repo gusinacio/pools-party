@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: gamepool
+      POSTGRES_PASSWORD: gamepool
+      POSTGRES_DB: gamepool
+    ports:
+      - 5432:5432
